@@ -368,134 +368,147 @@ var codeOptions = [ { code : "00001", compID : "sbx_Duty" },
 					{ code : "00024", compID : "grd_CommCodeSample:JOB_CD", useLocalCache : false} ];
 com.data.setCommonCode(codeOptions);
  */
+/**
+ * 공통 코드를 비동기로 조회하여 컴포넌트(SelectBox, GridView 등)에 바인딩한다.
+ * @param {Array} codeOptions - 코드 설정 배열
+ * @param {Function} [callbackFunc] - (선택) 후속 콜백 함수
+ * @returns {Promise} 모든 코드 세팅 및 비동기 통신 완료 시 resolve되는 Promise 객체
+ */
 com.data.setCommonCode = function(codeOptions, callbackFunc) {
-	var codeOptionsLen = 0;
+    // 호출하는 화면단에서 await로 대기할 수 있도록 Promise를 리턴합니다.
+    return new Promise(function(resolve, reject) {
+        
+        // 1. 예외 처리 및 파라미터 검증
+        if (!codeOptions || !codeOptions.length) {
+            var errorMsg = "=== com.setCommonCode Parameter Type Error ===";
+            console.error(errorMsg);
+            reject(new Error(errorMsg));
+            return;
+        }
 
-	if (codeOptions) {
-		codeOptionsLen = codeOptions.length;
-	} else {
-		console.error("=== com.setCommonCode Parameter Type Error ===\nex) com.setCommonCode([{\"code:\":\"04\",\"compID\":\"sbx_Gender\"}],\"scwin.callbackFunction\")\n===================================");
-		return;
-	}
+        var codeOptionsLen = codeOptions.length;
+        var dltIdArr = [];
+        var paramCodeArr = [];
+        var dataListOption = _getCodeDataListOptions(gcm.COMMON_CODE_INFO.FILED_ARR);
 
-	var i, j, codeObj, dltId, dltIdArr = [], paramCode = "", compArr, compArrLen, tmpIdArr;
-	var dataListOption = _getCodeDataListOptions(gcm.COMMON_CODE_INFO.FILED_ARR);
+        // 2. 동적 DataList 생성 및 컴포넌트 바인딩
+        for (var i = 0; i < codeOptionsLen; i++) {
+            var codeObj = codeOptions[i];
+            try {
+                var dltId = gcm.DATA_PREFIX + codeObj.code;
 
-	for (i = 0; i < codeOptionsLen; i++) {
-		codeObj = codeOptions[i];
+                if (codeObj.useLocalCache === false && typeof gcm.commonCodeList[dltId] !== "undefined") {
+                    delete gcm.commonCodeList[dltId];
+                    $p.data.remove(dltId);
+                }
 
-		try {
-			dltId = gcm.DATA_PREFIX + codeObj.code;
-			
-			if ((typeof gcm.commonCodeList[dltId] !== "undefined") && (codeObj.useLocalCache === false)) {
-				delete gcm.commonCodeList[dltId];
-				$p.data.remove(dltId);
-			}
-			
-			if (typeof gcm.commonCodeList[dltId] === "undefined") {
-				dltIdArr.push(dltId);
+                dataListOption.id = dltId;
+                $p.data.create(dataListOption);
 
-				if (i > 0) {
-					paramCode += ",";
-				}
-				paramCode += codeObj.code;
-				dataListOption.id = dltId;
-				$p.data.create(dataListOption); // 동일한 id의 DataCollection이 존재할 경우, 삭제 후 재생성함
-			} else {
-				dataListOption.id = dltId;
-				$p.data.create(dataListOption);
-				var dataListObj = $p.getComponentById(dataListOption.id);
-				dataListObj.setJSON(gcm.commonCodeList[dltId]);
-			}
+                if (typeof gcm.commonCodeList[dltId] === "undefined") {
+                    dltIdArr.push(dltId);
+                    paramCodeArr.push(codeObj.code);
+                } else {
+                    var dataListObj = $p.getComponentById(dltId);
+                    if (dataListObj) {
+                        dataListObj.setJSON(gcm.commonCodeList[dltId]);
+                    }
+                }
 
-			if (codeObj.compID) {
-				compArr = (codeObj.compID).replaceAll(" ", "").split(",");
-				compArrLen = compArr.length;
-				
-				for (j = 0; j < compArrLen; j++) {
-					tmpIdArr = compArr[j].split(":"); 
-					
-					if (tmpIdArr.length === 1) {
-						var comp = com.util.getComponent(tmpIdArr[0]);
-						if (!com.util.isEmpty(comp)) {
-							comp.setNodeSet("data:" + dltId, gcm.COMMON_CODE_INFO.LABEL, gcm.COMMON_CODE_INFO.VALUE);
-						} else {
-							console.warn("[com.data.setCommonCode] Component(" + tmpIdArr[0] + ")를 찾을 수 없습니다.");
-						}
-					} else {
-						var gridObj = com.util.getComponent(tmpIdArr[0]);
-						if (!com.util.isEmpty(gridObj)) {
-							gridObj.setColumnNodeSet(tmpIdArr[1], "data:" + dltId, gcm.COMMON_CODE_INFO.LABEL, gcm.COMMON_CODE_INFO.VALUE);
-						} else {
-							console.warn("[com.data.setCommonCode] GridView(" + tmpIdArr[0] + ")를 찾을 수 없습니다.");
-						}
-					}
-				}
-			}
-		} catch (ex) {
-			console.error(ex);
-		}
-	}
+                if (codeObj.compID) {
+                    _bindComponent(codeObj.compID, dltId);
+                }
+            } catch (ex) {
+                console.error("[com.data.setCommonCode] Error in loop index " + i, ex);
+            }
+        }
 
-	var searchCodeGrpOption = {
-		id : "_sbm_searchCode",
-		action : "/common/selectCodeList",
-		target : "data:json," + com.str.serialize(dltIdArr),
-		isProcessMsg : false
-	};
+        // 3. 비동기 서버 통신 제어
+        var paramCode = paramCodeArr.join(",");
+        if (paramCode !== "") {
+            // 서버 통신이 필요하면 Submission 실행 후 완료 시점에 resolve 호출
+            _sendCodeSubmissionAsync(paramCode, dltIdArr, _onComplete);
+        } else {
+            // 모든 코드가 캐시되어 통신이 필요 없다면 즉시 완료 처리
+            _onComplete();
+        }
 
-	searchCodeGrpOption.submitDoneHandler = function(e) {
-		for (var codeGrpDataListId in e.responseJSON) {
-			if (codeGrpDataListId.indexOf(gcm.DATA_PREFIX) > -1) {
-				gcm.commonCodeList[codeGrpDataListId] = e.responseJSON[codeGrpDataListId];
-			}
-		}
+        // 공통 완료 처리 함수 (콜백 실행 후 Promise 완료)
+        function _onComplete() {
+            if (typeof callbackFunc === "function") {
+                callbackFunc();
+            }
+            resolve(); // 🌟 이 부분이 실행되어야 화면의 await가 풀립니다.
+        }
+    });
 
-		if (typeof callbackFunc === "function") {
-			callbackFunc();
-		}
-	}
+    // =================================================================
+    // 내부 헬퍼 함수
+    // =================================================================
+    function _bindComponent(compIDStr, dltId) {
+        var compArr = compIDStr.replaceAll(" ", "").split(",");
+        for (var j = 0; j < compArr.length; j++) {
+            var tmpIdArr = compArr[j].split(":");
+            var compObj = com.util.getComponent(tmpIdArr[0]);
 
-	if (paramCode !== "") {
-		if (com.util.isEmpty(com.util.getComponent(searchCodeGrpOption.id))) {
-			com.sbm.create(searchCodeGrpOption);
-		} else {
-			$p.deleteSubmission(searchCodeGrpOption.id);
-			com.sbm.create(searchCodeGrpOption);
-		}
-		
-		var sbmObj = com.util.getComponent(searchCodeGrpOption.id);
-		var reqData = {
-			"dma_commonCode" : {
-				"GRP_CD" : paramCode,
-				"DATA_PREFIX" : gcm.DATA_PREFIX
-			}
-		};
-		sbmObj.setRequestData(reqData);
-	} else {
-		if (typeof callbackFunc === "function") {
-			callbackFunc();
-		}
-	}
+            if (com.util.isEmpty(compObj)) {
+                console.warn("[com.data.setCommonCode] Component(" + tmpIdArr[0] + ")를 찾을 수 없습니다.");
+                continue;
+            }
 
-	// dataList를 동적으로 생성하기 위한 옵션 정보를 반환한다.
-	function _getCodeDataListOptions(infoArr) {
-		var option = {
-			"type" : "dataList",
-			"option" : {
-				"baseNode" : "list",
-				"repeatNode" : "map"
-			},
-			"columnInfo" : []
-		};
+            if (tmpIdArr.length === 1) {
+                compObj.setNodeSet("data:" + dltId, gcm.COMMON_CODE_INFO.LABEL, gcm.COMMON_CODE_INFO.VALUE);
+            } else {
+                compObj.setColumnNodeSet(tmpIdArr[1], "data:" + dltId, gcm.COMMON_CODE_INFO.LABEL, gcm.COMMON_CODE_INFO.VALUE);
+            }
+        }
+    }
 
-		for ( var idx in infoArr) {
-			option.columnInfo.push({
-				"id" : infoArr[idx]
-			});
-		}
-		return option;
-	}
+    function _sendCodeSubmissionAsync(paramCode, dltIdArr, onCompleteInternal) {
+        var subId = "_sbm_searchCode";
+        if (!com.util.isEmpty(com.util.getComponent(subId))) {
+            $p.deleteSubmission(subId);
+        }
+
+        var searchCodeGrpOption = {
+            id: subId,
+            action: "/common/selectCodeList",
+            target: "data:json," + com.str.serialize(dltIdArr),
+            isProcessMsg: false,
+            mode: "asynchronous", 
+            submitDoneHandler: function(e) {
+                for (var codeGrpDataListId in e.responseJSON) {
+                    if (codeGrpDataListId.indexOf(gcm.DATA_PREFIX) > -1) {
+                        gcm.commonCodeList[codeGrpDataListId] = e.responseJSON[codeGrpDataListId];
+                    }
+                }
+                // 통신 및 캐싱 완료 후 내부 완료 함수 트리거
+                onCompleteInternal();
+            }
+        };
+
+        com.sbm.create(searchCodeGrpOption);
+
+        var sbmObj = com.util.getComponent(subId);
+        if (sbmObj) {
+            sbmObj.setRequestData({
+                "dma_commonCode": { "GRP_CD": paramCode, "DATA_PREFIX": gcm.DATA_PREFIX }
+            });
+            $p.executeSubmission(subId); 
+        }
+    }
+
+    function _getCodeDataListOptions(infoArr) {
+        var option = {
+            "type": "dataList",
+            "option": { "baseNode": "list", "repeatNode": "map" },
+            "columnInfo": []
+        };
+        for (var idx = 0; idx < infoArr.length; idx++) {
+            option.columnInfo.push({ "id": infoArr[idx] });
+        }
+        return option;
+    }
 };
 
 
