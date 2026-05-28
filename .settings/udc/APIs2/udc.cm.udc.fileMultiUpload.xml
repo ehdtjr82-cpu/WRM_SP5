@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<WebSquare>
+    <component>
+        <Information>
+            <componentID value="_cm_udc_fileMultiUpload"/>
+            <buildName value=""/>
+            <componentType value="pageComponent"/>
+            <componentDesc value=""/>
+            <displaySrc value="/cm/udc/fileMultiUpload.xml"/>
+        </Information>
+        <properties>
+            <property>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="style"/>
+                <propertyType value="string"/>
+                <bindparent value=""/>
+                <description>desc</description>
+                <options value=""/>
+                <necessary value="N"/>
+                <descSummary value="desc"/>
+            </property>
+            <property>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="class"/>
+                <propertyType value="string"/>
+                <bindparent value=""/>
+                <description>desc</description>
+                <options value=""/>
+                <necessary value="N"/>
+                <descSummary value="desc"/>
+            </property>
+            <property>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="id"/>
+                <propertyType value="string"/>
+                <bindparent value=""/>
+                <description>desc</description>
+                <options value=""/>
+                <necessary value="N"/>
+                <descSummary value="desc"/>
+            </property>
+            <property>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="maxFileCount"/>
+                <propertyType value="number"/>
+                <bindparent value=""/>
+                <description>최대 업로드 파일 개수</description>
+                <options value=""/>
+                <necessary value="N"/>
+                <descSummary value="최대 업로드 파일 개수"/>
+            </property>
+            <property>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="maxFileSize"/>
+                <propertyType value="number"/>
+                <bindparent value=""/>
+                <description>업로드할 개별 파일 사이즈 (websquare.xml 환경설정 파일의 maxUploadSize 값보다 커서는 안됨)</description>
+                <options value=""/>
+                <necessary value="N"/>
+                <descSummary value="업로드할 개별 파일 사이즈 (websquare"/>
+            </property>
+            <property>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="totalFileSize"/>
+                <propertyType value="number"/>
+                <bindparent value=""/>
+                <description>업로드할 전체 파일 사이즈</description>
+                <options value=""/>
+                <necessary value="N"/>
+                <descSummary value="업로드할 전체 파일 사이즈"/>
+            </property>
+            <property>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="subDir"/>
+                <propertyType value="string"/>
+                <bindparent value=""/>
+                <description>파일의 저장할 subDir 디렉터리 경로 설정(설정하지 않은 경우 websquare.xml 환경설정 파일의 baseDir 경로에 파일이 저장됨)</description>
+                <options value=""/>
+                <necessary value="N"/>
+                <descSummary value="파일의 저장할 subDir 디렉터리 경로 설정(설정하지 않은 경우 websquare"/>
+            </property>
+            <property>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="filter"/>
+                <propertyType value="string"/>
+                <bindparent value=""/>
+                <description>공백("")으로 설정하면 모든 파일(*.*)로 설정됨</description>
+                <options value=""/>
+                <necessary value="N"/>
+                <descSummary value="공백(&quot;&quot;)으로 설정하면 모든 파일(*"/>
+            </property>
+            <property>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="fileGrpSeq"/>
+                <propertyType value="number"/>
+                <bindparent value=""/>
+                <description>파일 그룹 관리에서 등록한 파일 그룹 순번</description>
+                <options value=""/>
+                <necessary value="Y"/>
+                <descSummary value="파일 그룹 관리에서 등록한 파일 그룹 순번"/>
+            </property>
+        </properties>
+        <events>
+            <event>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="onFileUploadDone"/>
+                <eventType value=""/>
+                <description>파일 업로드 완료 시 발생하는 이벤트 함수</description>
+                <descSummary value="파일 업로드 완료 시 발생하는 이벤트 함수"/>
+                <params index="1">
+                    <param description="파일 전송 성공 여부 (1개라도 업로드에 실패한 파일이 있으면 false를 반환함)" index="0" name="isSuccess" type="boolean"/>
+                </params>
+            </event>
+        </events>
+        <methods>
+            <method>
+                <samples index="0"/>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="setDataSeq"/>
+                <cdate/>
+                <version value=""/>
+                <author value=""/>
+                <description>데이터 순번을 세팅하고, 기존에 업로드된 파일을 표시하는 함수</description>
+                <exception value=""/>
+                <skinAttr value=""/>
+                <hidden value="N"/>
+                <deprecated/>
+                <descSummary value="데이터 순번을 세팅하고, 기존에 업로드된 파일을 표시하는 함수"/>
+                <params index="1">
+                    <param description="데이터 순번" index="0" name="dataSeq" necessary="Y" type="string"/>
+                </params>
+                <returns index="0"/>
+            </method>
+            <method>
+                <samples index="0"/>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="isModified"/>
+                <cdate/>
+                <version value=""/>
+                <author value=""/>
+                <description>추가하거나 삭제하려는 파일이 있는지 여부 검사</description>
+                <exception value=""/>
+                <skinAttr value=""/>
+                <hidden value="N"/>
+                <deprecated/>
+                <descSummary value="추가하거나 삭제하려는 파일이 있는지 여부 검사"/>
+                <params index="0"/>
+                <returns index="1">
+                    <return description="파일 변경 상태 ( true : 변경된 파일 있음, false : 변경된 파일 없음)" index="0" name="status" type="boolean"/>
+                </returns>
+            </method>
+            <method>
+                <samples index="0"/>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="setFileSelectingButtonDisabled"/>
+                <cdate/>
+                <version value=""/>
+                <author value=""/>
+                <description>파일 선택 버튼을 상태를 제어함</description>
+                <exception value=""/>
+                <skinAttr value=""/>
+                <hidden value="N"/>
+                <deprecated/>
+                <descSummary value="파일 선택 버튼을 상태를 제어함"/>
+                <params index="1">
+                    <param description="버튼 상태 ( true : 활성화, false : 비활성화)" index="0" name="status" necessary="Y" type="boolean"/>
+                </params>
+                <returns index="0"/>
+            </method>
+            <method>
+                <samples index="0"/>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="getUpdatedFile"/>
+                <cdate/>
+                <version value=""/>
+                <author value=""/>
+                <description>업데이트된 파일 정보를 반환하는 함수</description>
+                <exception value=""/>
+                <skinAttr value=""/>
+                <hidden value="N"/>
+                <deprecated/>
+                <descSummary value="업데이트된 파일 정보를 반환하는 함수"/>
+                <params index="0"/>
+                <returns index="1">
+                    <return description="파일 업로드 옵션" index="0" name="option" type="string"/>
+                </returns>
+            </method>
+            <method>
+                <samples index="1">
+                    <sample index="0">// 첨부 파일 업로드 모듈 초기 설정 옵션
+// - option.maxFileCount : 업로드 가능한 첨부 파일 개수
+// - option.totalFileSize : 업로드 가능한 전체 첨부 파일 크기 (개별 첨부 파일 크기는 서버 프레임워크에서 세팅함)
+// - option.fileGrpSeq : 파일 그룹 아이디 (신규 등록 화면이면 ""로 세팅하고, 수정 화면이면 기존에 등록된 파일 그룹 아이디를 세팅함)
+var option = {
+    maxFileCount : 3,
+    totalFileSize : 209715200,
+    policy : "templates",
+    fileGrpSeq : "23",
+    filter : "*.jpg,*.png,*.gif"
+};
+
+// 첨부 파일 업로드 모듈 초기 설정
+// - fileUploadFrame File Upload WFrame 객체
+// - option File Upload 옵션 정보
+com.setFileUpload(option);</sample>
+                </samples>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="setFileUpload"/>
+                <cdate/>
+                <version value=""/>
+                <author value=""/>
+                <description>파일 업로드 옵션을 설정하는 함수</description>
+                <exception value=""/>
+                <skinAttr value=""/>
+                <hidden value="N"/>
+                <deprecated/>
+                <descSummary value="파일 업로드 옵션을 설정하는 함수"/>
+                <params index="1">
+                    <param description="파일 업로드 옵션" index="0" name="option" necessary="Y" type="string"/>
+                </params>
+                <returns index="0"/>
+            </method>
+            <method>
+                <samples index="0"/>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="undoFileUpload"/>
+                <cdate/>
+                <version value=""/>
+                <author value=""/>
+                <description>파일 추가 &amp; 삭제 상태를 원복하는 함수</description>
+                <exception value=""/>
+                <skinAttr value=""/>
+                <hidden value="N"/>
+                <deprecated/>
+                <descSummary value="파일 추가 &amp; 삭제 상태를 원복하는 함수"/>
+                <params index="1">
+                    <param description="데이터 순번" index="0" name="dataSeq" necessary="Y" type="string"/>
+                </params>
+                <returns index="0"/>
+            </method>
+            <method>
+                <samples index="0"/>
+                <componentID value="_cm_udc_fileMultiUpload"/>
+                <LineNo value="-1"/>
+                <name value="startFileUpload"/>
+                <cdate/>
+                <version value=""/>
+                <author value=""/>
+                <description>파일 업로드를 실행하는 함수</description>
+                <exception value=""/>
+                <skinAttr value=""/>
+                <hidden value="N"/>
+                <deprecated/>
+                <descSummary value="파일 업로드를 실행하는 함수"/>
+                <params index="0"/>
+                <returns index="0"/>
+            </method>
+        </methods>
+        <children/>
+    </component>
+</WebSquare>

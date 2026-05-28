@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inswave.wrm.common.dao.HolidayDao">
+	<select id="selectHoliday" parameterType="Map" resultType="Map">
+		SELECT *
+		FROM BM_HOLIDAY
+		<where>
+			<if test="REST_DATE != null and REST_DATE != ''">
+				AND REST_DATE like CONCAT('%', #{REST_DATE}, '%')
+			</if>
+			<if test="REST_CODE != 'all' and REST_CODE != null and REST_CODE != ''">
+				AND REST_CODE like #{REST_CODE}
+			</if>
+			<if test="REST_NAME != null and REST_NAME != ''">
+				AND REST_NAME like CONCAT('%', #{REST_NAME}, '%')
+			</if>
+		</where>
+		ORDER BY REST_DATE ASC
+	</select>
+
+	<insert id="insertHoliday" parameterType="Map">
+		INSERT INTO BM_HOLIDAY( REST_DATE, REST_NAME, REST_CODE, NOTE )
+		VALUES( #{REST_DATE}, #{REST_NAME}, #{REST_CODE}, #{NOTE} )
+	</insert>
+	
+	<delete id="deleteHoliday">
+		DELETE FROM BM_HOLIDAY
+		WHERE REST_SEQ = #{REST_SEQ}
+	</delete>
+	
+	<update id="updateHoliday" parameterType="Map">
+		UPDATE BM_HOLIDAY
+		SET REST_NAME = #{REST_NAME}, REST_CODE = #{REST_CODE}, REST_DATE = #{REST_DATE}, NOTE = #{NOTE}
+		WHERE REST_SEQ = #{REST_SEQ}
+	</update>
+	
+</mapper>

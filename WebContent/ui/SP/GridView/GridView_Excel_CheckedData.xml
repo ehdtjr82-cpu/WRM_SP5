@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head meta_programId="GridView_Excel_CheckedData" meta_programName="샘플화면- 체크된 데이터 엑셀 파일 다운로드" meta_programDesc="그리드뷰의 데이터를 파일 형태(xlsx, xls)에 따라 checked된 데이터를 엑셀 다운로드 하는 기능을 제공한다." meta_author="Inswave Systems" meta_date="2023.07.28">
+		<w2:type>COMPONENT</w2:type>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection baseNode="map">
+				<w2:dataMap baseNode="map" id="dma_fileDesc">
+					<w2:keyInfo>
+						<w2:key id="desc" name="" dataType="text"></w2:key>
+						<w2:key id="test" name="" dataType="text"></w2:key>
+					</w2:keyInfo>
+					<w2:data use="true">
+						<desc><![CDATA[
+<pre class="textNor">
+<div class="etcbox">
+파일형태, type, checkedID, checkedData, convertedIndex 옵션을 받아 GridView에서 선택된 Row의 데이터만 엑셀 다운로드 하는 기능을 제공한다.	
+</div> 
+</pre>
+						]]></desc>
+						<test><![CDATA[
+<pre class="textNor">
+<div class="etc_tit">선택된 데이터만 엑셀 다운로드 과정</div>
+  1. checkedID 항목을 선택하고 "chk" 컬럼을 선택한다.
+  2. GridView에서 다운로드 받을 Row의 체크박스를 선택한다.
+  3. [다운로드] 버튼을 클릭한다.	
+<div class="etc_tit">결과</div>
+  1. 다운로드 : data.xlsx, data.xls
+</pre>
+						]]></test>
+					</w2:data>
+				</w2:dataMap>
+				<w2:dataList id="dlt_advancedExcel" baseNode="list" saveRemovedData="true" repeatNode="map">
+					<w2:columnInfo>
+						<w2:column id="chk" name="체크" dataType="text" ignoreStatus="true"></w2:column>
+						<w2:column id="MENU_CD" name="메뉴코드" dataType="text"></w2:column>
+						<w2:column id="MENU_NM" name="메뉴명" dataType="text"></w2:column>
+						<w2:column id="PARENT_MENU_NM" name="부모메뉴명" dataType="text"></w2:column>
+						<w2:column id="MENU_LEVEL" name="메뉴레벨" dataType="text"></w2:column>
+						<w2:column id="SRC_PATH" name="경로" dataType="text"></w2:column>
+						<w2:column id="IS_USE" name="사용여부" dataType="text"></w2:column>
+						<w2:column id="SORT_ORDER" name="순서" dataType="text"></w2:column>
+						<w2:column id="PARENT_MENU_CD" name="부모메뉴코드" dataType="text"></w2:column>
+						<w2:column id="MENU_CD_SEL" name="메뉴코드_선택" dataType="text" importFormatter="scwin.importFormat"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+			</w2:dataCollection>
+			<w2:workflowCollection></w2:workflowCollection>
+			<xf:submission id="sbm_advancedExcel" ref="" target="data:json,dlt_advancedExcel" action="/ui/SP/JsonData/advancedExcel.json" method="get" mediatype="application/json" encoding="UTF-8"
+				instance="" replace="" errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit="" ev:submitdone="scwin.sbm_advancedExcel_submitdone" ev:submiterror="" abortTrigger="">
+			</xf:submission>
+		</xf:model>
+		<w2:layoutInfo></w2:layoutInfo>
+		<w2:publicInfo method=""></w2:publicInfo>
+
+		<script type="text/javascript" lazy="false"><![CDATA[
+/**
+ * 초기 스크립트 수행 함수 정의
+ */
+scwin.onpageload = function () {
+
+	// 조회
+	scwin.btn_search_onclick();
+
+	// 체크ID 를 선택하기위해 selectbox에 데이터 담기
+	grd_excelGrid.cellIdList.forEach((a) => sbx_checkIDs.addItem(a, a));
+	sbx_checkIDs.setValue("chk");
+	ibx_checkData.setValue("true");
+
+	// convertedID를 선택하기위해 checkCombo에 데이터 담기 
+	Object.keys(grd_excelGrid.bodyIdColIndexMap).forEach((a, i) => cbo_convertedIndex.addItem(i, a));
+};
+
+/** 
+ * /ui/SP/Data/advancedExcel.json 파일을 읽어온다.
+ */
+scwin.btn_search_onclick = function () {
+	com.sbm.execute(sbm_advancedExcel);
+};
+
+/**
+ * sbm_advancedExcel의 submitdone, 조회된 행의 총 갯수를 count한다.
+ */
+scwin.sbm_advancedExcel_submitdone = function (e) {
+	spn_excelBasicCnt.setValue(dlt_advancedExcel.getRowCount());
+};
+
+/** 
+ * 그리드뷰의 데이터를 엑셀로 다운로드 한다.
+ * 필요한 옵션이 있다면 options, infoArr배열에 옵션을 넣는다.
+ */
+scwin.btn_downloadExcelBasic_onclick = function () {
+	var option = {};
+	var info = {};
+
+	if (rad_excelType.getValue() == "xls" || rad_excelType.getValue() == "xlsx") {
+		option.fileName = "data." + rad_excelType.getValue();
+		option.type = sbx_type.getValue() || "0";// 다운로드 타입결정
+		option.convertIndex = cbo_convertedIndex.getValueArray().toString() || "";// convertIndex 설정
+		option.checkedColumnId = sbx_checkIDs.getValue() || "";
+		option.checkedData = ibx_checkData.getValue();
+		option.columnMove = true; // GridView의 컬럼 이동을 반영해서 Excel 파일로 다운로드 함함
+
+		com.data.downloadGridViewExcel(grd_excelGrid, option, info);
+	} else {
+		com.win.alert("지원하지 않는 파일 형식입니다.");
+	}
+};
+
+/**
+ * 그리드의 데이터가 지워진다.
+ */
+scwin.btn_gridRemoveExcelBasic_onclick = function () {
+	dlt_advancedExcel.removeAll();
+};
+
+scwin.sbx_checkIDs_onviewchange = function (info) {
+	ibx_checkData.setValue(info.newValue == 'chk' ? true : "");
+};
+
+scwin.importFormat = function (a) {
+	return a.MENU_CD;
+};
+]]></script>
+	</head>
+	<body ev:onpageload="scwin.onpageload">
+		<xf:group class="sub_contents flex_gvw" id="" style="">
+			<w2:wframe id="" style="" src="../../cm/xml/contentHeader.xml" scope=""></w2:wframe>
+			<w2:wframe id="" src="../../cm/xml/contentDesc.xml" scope=""></w2:wframe>
+			<xf:group style="" id="" class="dfbox">
+				<xf:group id="" class="fr" style="float:left;line-height: 34px">
+					<w2:textbox style="" id="spn_excelBasicCnt" label="0" class="sum"></w2:textbox>
+					<w2:textbox style="" id="" label="건" class=""></w2:textbox>
+				</xf:group>
+				<xf:group style="" id="" class="fr">
+					<xf:trigger class="btn_cm download" id="btn_downloadExcelBasic" style="" type="button" toolTip="그리드의 데이터를 엑셀로 다운로드 한다."
+						ev:onclick="scwin.btn_downloadExcelBasic_onclick">
+						<xf:label><![CDATA[엑셀다운로드]]></xf:label>
+					</xf:trigger>
+					<xf:trigger class="btn_cm " id="btn_gridRemoveExcelBasic" style="" type="button" toolTip="현재 그리드에 업로드 되어있는 데이터를 삭제한다."
+						ev:onclick="scwin.btn_gridRemoveExcelBasic_onclick">
+						<xf:label><![CDATA[지우기]]></xf:label>
+					</xf:trigger>
+					<xf:trigger class="btn_cm  search" id="btn_search" style="" type="button" ev:onclick="scwin.btn_search_onclick">
+						<xf:label><![CDATA[조회]]></xf:label>
+					</xf:trigger>
+
+
+				</xf:group>
+			</xf:group><xf:group class="tbbox" id="" style="">
+			<xf:group adaptive="layout" adaptiveThreshold="600" class="w2tb tb" id="" style="" tagname="table">
+				<w2:attributes>
+					<w2:summary></w2:summary>
+				</w2:attributes>
+				<xf:group tagname="colgroup">
+					<xf:group style="width:150px;" tagname="col"></xf:group>
+					<xf:group style="" tagname="col"></xf:group>
+					<xf:group style="width:150px;" tagname="col"></xf:group>
+					<xf:group style="" tagname="col"></xf:group>
+				</xf:group>
+				<xf:group style="" tagname="tr">
+					<xf:group class="w2tb_th" style="" tagname="th">
+						<w2:textbox class="req" id="" label="파일형태" ref="" style="" userData2=""></w2:textbox>
+					</xf:group>
+					<xf:group class="w2tb_td" style="" tagname="td">
+						<xf:select1 appearance="full" class="mr10" cols="" disabled="" id="rad_excelType" ref="" renderType="radiogroup"
+							rows="1" selectedIndex="0" style="">
+							<xf:choices>
+								<xf:item>
+									<xf:label><![CDATA[xlsx]]></xf:label>
+									<xf:value><![CDATA[xlsx]]></xf:value>
+								</xf:item>
+								<xf:item>
+									<xf:label><![CDATA[xls]]></xf:label>
+									<xf:value><![CDATA[xls]]></xf:value>
+								</xf:item>
+							</xf:choices>
+						</xf:select1>
+					</xf:group>
+					<xf:group class="w2tb_th " tagname="th" style="text-align: left;">
+						<w2:attributes><w2:colspan>2</w2:colspan><w2:rowspan>1</w2:rowspan></w2:attributes>
+						<w2:textbox class="" id="" label="엑셀다운로드의 확장자를 지정합니다." ref="" style="" userData2=""></w2:textbox>
+					</xf:group>
+				</xf:group>
+				<xf:group tagname="tr" style="">
+					<xf:group class="w2tb_th " tagname="th">
+						<w2:attributes>
+							<w2:scope>row</w2:scope>
+						</w2:attributes>
+						<w2:textbox class="" id="" label="type" ref="" style="" userData2=""></w2:textbox>
+					</xf:group>
+					<xf:group class="w2tb_td" tagname="td">
+						<w2:attributes>
+							<w2:colspan>1</w2:colspan>
+							<w2:rowspan>1</w2:rowspan>
+						</w2:attributes>
+						<xf:select1 allOption="" appearance="minimal" chooseOption="" direction="auto" disabled="false"
+							disabledClass="w2selectbox_disabled" id="sbx_type" ref="" style="width: 148px;height: 21px;" submenuSize="auto">
+							<xf:choices>
+								<xf:item>
+									<xf:label><![CDATA[0]]></xf:label>
+									<xf:value><![CDATA[0]]></xf:value>
+								</xf:item>
+								<xf:item>
+									<xf:label><![CDATA[1]]></xf:label>
+									<xf:value><![CDATA[1]]></xf:value>
+								</xf:item>
+								<xf:item>
+									<xf:label><![CDATA[2]]></xf:label>
+									<xf:value><![CDATA[2]]></xf:value>
+								</xf:item>
+							</xf:choices>
+						</xf:select1>
+					</xf:group>
+					<xf:group class="w2tb_th " tagname="th" style="text-align: left;">[defalut:&amp;nbsp;0]&amp;nbsp;<br></br>0&amp;nbsp;:&amp;nbsp;실제&amp;nbsp;데이터&amp;nbsp;<br></br>1&amp;nbsp;:&amp;nbsp;화면에&amp;nbsp;보이는&amp;nbsp;데이터<br></br>2&amp;nbsp;:&amp;nbsp;들어가&amp;nbsp;있는&amp;nbsp;data&amp;nbsp;그대로(filter무시&amp;nbsp;expression&amp;nbsp;타입의&amp;nbsp;셀은&amp;nbsp;나오지&amp;nbsp;않음)<w2:attributes><w2:colspan>2</w2:colspan><w2:rowspan>1</w2:rowspan></w2:attributes><w2:textbox class="" id="" label="" ref="" style="text-align: left" userData2=""></w2:textbox></xf:group>
+				</xf:group>
+			<xf:group tagname="tr" style=""><xf:group tagname="th" class="w2tb_th ">checkedID<w2:attributes><w2:scope>row</w2:scope></w2:attributes></xf:group>
+				<xf:group tagname="td" class="w2tb_td">
+					<w2:attributes></w2:attributes>
+					<xf:select1 allOption="" appearance="minimal" chooseOption="true" direction="auto" disabled="false"
+						disabledClass="w2selectbox_disabled" ev:onviewchange="scwin.sbx_checkIDs_onviewchange" id="sbx_checkIDs"
+						style="width: 148px;height: 21px;" submenuSize="auto" chooseOptionLabel="" ref="">
+						<xf:choices></xf:choices>
+					</xf:select1>
+				</xf:group>
+				<xf:group tagname="th" class="w2tb_th " style="text-align: left;">선택된&amp;nbsp;컬럼을&amp;nbsp;기준으로&amp;nbsp;checkData의&amp;nbsp;값을&amp;nbsp;비교한다.<w2:attributes><w2:scope>row</w2:scope><w2:colspan>2</w2:colspan><w2:rowspan>1</w2:rowspan></w2:attributes></xf:group></xf:group><xf:group tagname="tr" style=""><xf:group tagname="th" class="w2tb_th ">checkedData<w2:attributes><w2:scope>row</w2:scope></w2:attributes></xf:group>
+	<xf:group tagname="td" class="w2tb_td">
+		<w2:attributes></w2:attributes>
+		<xf:input id="ibx_checkData" style="width: 144px;height: 21px;"></xf:input>
+	</xf:group>
+	<xf:group tagname="th" class="w2tb_th " style="text-align: left;">checkedID에서&amp;nbsp;선택된&amp;nbsp;데이터를&amp;nbsp;기준으로&amp;nbsp;본&amp;nbsp;데이터와&amp;nbsp;매칭하여&amp;nbsp;엑셀다운로드를&amp;nbsp;시도한다.<w2:attributes><w2:scope>row</w2:scope><w2:colspan>2</w2:colspan><w2:rowspan>1</w2:rowspan></w2:attributes></xf:group></xf:group><xf:group tagname="tr" style=""><xf:group tagname="th" class="w2tb_th ">convertedIndex<w2:attributes><w2:scope>row</w2:scope></w2:attributes></xf:group>
+	<xf:group tagname="td" class="w2tb_td">
+		<w2:attributes></w2:attributes>
+		<xf:checkcombobox id="cbo_convertedIndex" displayAllOptionLabel="false" chooseOption="false" style="width: 148px;height: 21px;"
+			submenuSize="auto" allOption="false" disabled="false" direction="auto" displayMode="label" checkboxClickSync="true">
+		</xf:checkcombobox>
+	</xf:group>
+	<xf:group tagname="th" class="w2tb_th " style="text-align: left;">convertedIndex를&amp;nbsp;선택한다.(테스트&amp;nbsp;목적상&amp;nbsp;chk로&amp;nbsp;설정함)<br></br>[default:&amp;nbsp;'chk']&amp;nbsp;<br></br>type이&amp;nbsp;&quot;0&quot;&amp;nbsp;또는&amp;nbsp;&quot;1&quot;인&amp;nbsp;경우,&amp;nbsp;특정&amp;nbsp;컬럼만&amp;nbsp;type이&amp;nbsp;&quot;1&quot;&amp;nbsp;또는&amp;nbsp;&quot;0&quot;인&amp;nbsp;데이터로&amp;nbsp;다운로드.&amp;nbsp;<br></br>ex)type=&quot;1&quot;인&amp;nbsp;상태에서&amp;nbsp;convertIndex=&quot;0,2&quot;인&amp;nbsp;경우,&amp;nbsp;index가&amp;nbsp;0,2인&amp;nbsp;컬럼은&amp;nbsp;컬름은&amp;nbsp;type=&quot;0&quot;으로&amp;nbsp;다운로드.<w2:attributes><w2:scope>row</w2:scope><w2:colspan>2</w2:colspan><w2:rowspan>1</w2:rowspan></w2:attributes></xf:group></xf:group></xf:group>
+		</xf:group>
+			<xf:group adaptiveThreshold="" class="gvwbox wq_flx" id="" style="">
+				<w2:gridView autoFit="allColumn" class="wq_gvw" columnMove="true" columnMoveWithFooter="" dataList="data:dlt_advancedExcel"
+					ev:onafteredit="" ev:onfilereadend="scwin.grd_excelGrid_onfilereadend" fixedColumnWithHidden="true" id="grd_excelGrid"
+					ignoreCellClick="false" rowNumHeaderValue="순서" rowNumVisible="true" rowStatusHeaderValue="상태" rowStatusVisible="true"
+					scrollByColumn="false" sortEvent="ondblclick" sortable="true" style="height:296px;" useShiftKey="true" defaultCellHeight="26"
+					rowNumWidth="50" rowStatusWidth="" keepDefaultColumnWidth="true" autoFitMinWidth="800">
+					<w2:header id="header1" style="">
+						<w2:row id="row2" style="">
+							<w2:column width="70" inputType="checkbox" style="" id="column16" value="" displayMode="label"></w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="column11" inputType="text" style="" value="메뉴코드"
+								width="80">
+							</w2:column>
+							<w2:column width="99" inputType="text" style="" id="column18" value="메뉴코드 SelectBox" displayMode="label"></w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="column9" inputType="text" value="메뉴명" width="100"
+								style="">
+							</w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="column7" inputType="text" value="부모메뉴명" width="100"
+								style="">
+							</w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="column3" inputType="text" value="메뉴레벨" width="80"
+								style="">
+							</w2:column>
+							<w2:column blockSelect="false" id="column12" inputType="text" value="경로" width="150" style=""></w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="column15" inputType="text" value="부모메뉴코드" width="50"
+								style="">
+							</w2:column>
+						</w2:row>
+					</w2:header>
+					<w2:gBody id="gBody4" style="">
+						<w2:row id="row5" style="">
+							<w2:column width="70" inputType="checkbox" style="" id="chk" value="" displayMode="label"></w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="MENU_CD" inputType="text" style="" width="80">
+							</w2:column>
+							<w2:column width="99" inputType="select" style="" id="MENU_CD_SEL" value="" displayMode="label" allOption=""
+								chooseOption="" ref="">
+								<w2:choices>
+									<w2:itemset nodeset="data:dlt_advancedExcel">
+										<w2:label ref="MENU_NM"></w2:label>
+										<w2:value ref="MENU_CD"></w2:value>
+									</w2:itemset>
+								</w2:choices>
+							</w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="MENU_NM" inputType="text" style="" width="40"
+								textAlign="left">
+							</w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="PARENT_MENU_NM" inputType="text" style=""
+								textAlign="left" width="50">
+							</w2:column>
+							<w2:column blockSelect="false" falseValue="N" id="MENU_LEVEL" inputType="text" style="" textAlign="center"
+								trueValue="Y" valueType="other" width="80">
+							</w2:column>
+							<w2:column blockSelect="false" id="SRC_PATH" inputType="text" width="50" textAlign="left" style=""></w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="PARENT_MENU_CD" inputType="text" style="" width="150">
+							</w2:column>
+						</w2:row>
+					</w2:gBody>
+				</w2:gridView>
+			</xf:group>
+		</xf:group>
+		
+	</body>
+</html>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="off" monitorInterval="10">
+
+	<!-- Appenders -->
+	<Appenders>
+		<Console name="console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%-5p: %c - %m%n" />
+		</Console>
+	</Appenders>
+
+	<!-- LOG LEVEL : TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF -->
+	<!-- Application Loggers -->
+	<Loggers>
+		<Logger name="com.inswave" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<!-- 3rdparty Loggers -->
+		<Logger name="org.springframework.core" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<Logger name="org.springframework.beans" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<Logger name="org.springframework.context" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<Logger name="org.springframework.web" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<!-- DB Connection Open/Close 정보 로그 기록함 -->
+		<Logger name="jdbc.connection" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<!-- ResultSet을 제외한 모든 JDBC 호출 정보를 로그를 기록함. 많은 양의 로그가 생성되므로 특별히 JDBC 문제를 추적해야 할 필요가 있는 경우 사용함 -->
+		<Logger name="jdbc.audit" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<!-- SQL문만을 로그로 남기며 PreparedStatement일 경우 관련된 argument 값으로 대체된 SQL문을 기록함 -->
+		<Logger name="jdbc.sqlonly" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<!-- SQL문과 해당 SQL을 실행시키는데 소요된 시간 정보(milliseconds)를 기록함 -->
+		<Logger name="jdbc.sqltiming" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<!-- ResultSet을 포함한 모든 JDBC 호출 정보를 로그함 -->
+		<Logger name="jdbc.resultset" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<!-- SQL 결과 조회된 데이터를 table 형태로 로그에 기록함 -->
+		<Logger name="jdbc.resultsettable" level="info" additivity="false">
+			<AppenderRef ref="console" />
+		</Logger>
+
+		<!-- ROOT -->
+		<Root level="debug" additivity="false">
+			<AppenderRef ref="console" />
+		</Root>
+	</Loggers>
+
+</Configuration>

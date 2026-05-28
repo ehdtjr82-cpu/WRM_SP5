@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inswave.wrm.member.dao.ScheduleDao">
+	<select id="selectSchedule" resultType="Map">
+		SELECT * FROM HM_SCHEDULE
+		 WHERE EMP_CD = #{EMP_CD}
+		 ORDER BY SCHE_START ASC, SCHE_END ASC, SCHE_STIME ASC, SCHE_FTIME ASC
+	</select>
+
+	<insert id="insertSchedule" parameterType="Map">
+		INSERT INTO HM_SCHEDULE (
+			EMP_CD,
+			SCHE_START, 
+			SCHE_END, 
+			SCHE_STIME, 
+			SCHE_FTIME, 
+			SCHE_THEME, 
+			SCHE_TITLE, 
+			SCHE_CODE, 
+			MEMO )
+		VALUES(
+			#{EMP_CD},
+			#{SCHE_START},
+			#{SCHE_END},
+			#{SCHE_STIME},
+			#{SCHE_FTIME},
+			#{SCHE_THEME},
+			#{SCHE_TITLE},
+			#{SCHE_CODE},
+			#{MEMO})
+	</insert>
+	
+	<delete id="deleteSchedule" parameterType="Map">
+		DELETE FROM HM_SCHEDULE
+		 WHERE SCHE_ID = #{SCHE_ID}
+		   AND EMP_CD = #{EMP_CD}
+	</delete>
+	
+	<update id="updateSchedule" parameterType="Map">
+		UPDATE HM_SCHEDULE
+		   SET SCHE_START = #{SCHE_START},
+			   SCHE_END = #{SCHE_END},
+			   SCHE_STIME = #{SCHE_STIME},
+			   SCHE_FTIME = #{SCHE_FTIME},
+			   SCHE_THEME = #{SCHE_THEME},
+			   SCHE_TITLE = #{SCHE_TITLE},
+			   SCHE_CODE = #{SCHE_CODE},
+			   MEMO = #{MEMO}
+		WHERE SCHE_ID = #{SCHE_ID}
+		  AND EMP_CD = #{EMP_CD}
+	</update>
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml-fragment>
+	<node>
+		<label value='xml'/>
+		<value value=''/>
+		<node>
+			<label value='xml API'/>
+			<value value='/null_1.5/API/html/_cm_udc_fileMultiUpload/_cm_udc_fileMultiUpload.html'/>
+		</node>
+		<node>
+			<label value='xml Field'/>
+			<value value='/null_1.5/API/html/_cm_udc_fileMultiUpload/_cm_udc_fileMultiUpload.html#defaultoptionsdetail'/>
+		</node>
+		<node>
+			<label value='xml Event'/>
+			<value value='/null_1.5/API/html/_cm_udc_fileMultiUpload/_cm_udc_fileMultiUpload.html#eventheader'/>
+		</node>
+		<node>
+			<label value='xml Method'/>
+			<value value='/null_1.5/API/html/_cm_udc_fileMultiUpload/_cm_udc_fileMultiUpload.html#apiheader'/>
+		</node>
+	</node>
+</xml-fragment>

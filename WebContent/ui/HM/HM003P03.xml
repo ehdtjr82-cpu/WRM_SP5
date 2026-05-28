@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head meta_programId="HM003P04" meta_programName="우편번호 찾기 팝업" meta_programDesc="우편번호를 지번 및 도로명 주소로 조회하고 선택하는 팝업 화면" meta_author="Inswave Systems" meta_date="2021.02.25">
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection>
+				<w2:dataList id="dlt_zipCode" baseNode="list" style="" repeatNode="map">
+					<w2:columnInfo>
+						<w2:column id="chk" name="name3" dataType="text"></w2:column>
+						<w2:column id="ZIP_CD" name="우편번호" dataType="text"></w2:column>
+						<w2:column id="ADDR1" name="주소" dataType="text"></w2:column>
+						<w2:column id="ADDR2" name="주소" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+				<w2:dataMap id="dma_searchParam" baseNode="param" style="">
+					<w2:keyInfo>
+						<w2:key id="SEARCH_TYPE" name="검색종류" dataType="text"></w2:key><w2:key id="SEARCH_KEYWORD" name="검색조건" dataType="text"></w2:key>
+						
+					</w2:keyInfo>
+				</w2:dataMap>
+			</w2:dataCollection>
+			<xf:submission id="sbm_getZipCodeList" ref='data:json,{"id":"dma_searchParam","key":"param"}'
+				target='data:json,{"id":"dlt_zipCode","key":"data"}' action="/member/selectZipCodeList" method="post" mediatype="application/json"
+				encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit=""
+				ev:submitdone="scwin.searchCallback" ev:submiterror="" abortTrigger="">
+			</xf:submission>
+		</xf:model>
+		<w2:layoutInfo></w2:layoutInfo>
+		<w2:publicInfo method=""></w2:publicInfo>
+
+		<script type="text/javascript" lazy="false"><![CDATA[/**
+ * 우편번호 선택 화면 초기화 작업을 수행한다.
+ */
+scwin.onpageload = function () {
+	scwin.btn_roadname_onclick();
+
+	var param = com.data.getParameter();
+	scwin.closeCallbackFncName = param.callbackFn;
+
+	ibx_searchKeyword.focus();
+	com.win.setEnterKeyEvent(grp_search, scwin.btn_searchZip_onclick);
+};
+
+/**
+ * 우편번호 선택를 조회한다.
+ */
+scwin.btn_searchZip_onclick = function () {
+	var searchWord = ibx_searchKeyword.getValue();
+
+	if (com.util.isEmpty(searchWord)) {
+		com.win.alert("검색어를 입력하세요");
+	} else {
+		txt_baseAddr.setValue("");
+		com.sbm.execute(sbm_getZipCodeList);
+	}
+};
+
+scwin.searchCallback = function () {
+	grd_zipCode.setFocusedCell(0, 1);
+};
+
+/**
+ * 선택된 우편번호 정보를 반환한다.
+ */
+scwin.btn_confirm_onclick = function () {
+	var focusedRowIndex = grd_zipCode.getFocusedRowIndex();
+
+	if (focusedRowIndex >= 0) {
+		var returnValue = dlt_zipCode.getRowJSON(focusedRowIndex);
+
+		if (dma_searchParam.get("SEARCH_TYPE") === "0") {
+			txt_baseAddr.setValue(returnValue.ADDR2);
+		} else {
+			txt_baseAddr.setValue(returnValue.ADDR1);
+		}
+	} else {
+		com.win.alert(com.data.getMessage("MSG_CM_00044"));
+	}
+};
+
+scwin.grd_zipCode_oncelldblclick = function (row, col) {
+	scwin.btn_confirm_onclick();
+};
+
+scwin.grd_zipCode_onkeyup = function (e) {
+	if (e.keyCode === 13) {
+		scwin.btn_confirm_onclick();
+	}
+};
+
+/**
+ * 우편번호 정보 선택을 취소한다.
+ */
+scwin.btn_cancel_onclick = function () {
+	com.win.closePopup();
+};
+
+scwin.btn_jibun_onclick = function(e) {
+	ibx_searchKeyword.setValue("");
+	dma_searchParam.set("SEARCH_TYPE", "0");
+
+	btn_roadname.setStyle("background-color",  "#FFFFFF");
+	btn_jibun.setStyle("background-color",  "#E0FCF9");
+
+	let  jibun_exp = "찾으시려는 동(읍/면/리)과 번지수 or 건물명을 입력해주세요.";
+	txt_exp.setValue(jibun_exp);
+	txt_exp2.setValue("예:정자동 178-1, 대치2동 현대아파트");
+};
+
+scwin.btn_roadname_onclick = function(e) {
+	ibx_searchKeyword.setValue("");
+	dma_searchParam.set("SEARCH_TYPE", "1");
+
+	btn_jibun.setStyle("background-color",  "#FFFFFF");
+	btn_roadname.setStyle("background-color",  "#E0FCF9");
+
+	let roadname_exp = "찾으시려는 도로명주소의건물번호 또는 건물명까지 상세히 입력 후 검색해 주세요.(도로명주소 확인 : www.juso.go.kr)";
+	txt_exp.setValue(roadname_exp);
+	txt_exp2.setValue("예) 중앙동, 불정로432번길");
+};
+
+
+scwin.grd_zipCode_oncellclick = function(row,col,colId) {
+	if (colId == 'chk') {
+		scwin.btn_confirm_onclick();
+	}
+};
+
+scwin.btn_addZip_onclick = function(e) {
+	var focusedRowIndex = grd_zipCode.getFocusedRowIndex();
+
+	if (focusedRowIndex >= 0) {
+		var addressInfo = dlt_zipCode.getRowJSON(focusedRowIndex);
+		var address = "";
+
+		if (dma_searchParam.get("SEARCH_TYPE") === "1") {
+			address = addressInfo.ADDR1;
+		} else {
+			address = addressInfo.ADDR2;
+		}
+
+		var zipInfo = {
+			ZIP_CD : addressInfo.ZIP_CD,
+			ADDRESS1 : address,
+			ADDRESS2 : txt_detailAddress.getValue()
+		}
+		com.win.closePopup(zipInfo);
+	} else {
+		com.win.alert(com.data.getMessage("MSG_CM_00044"));
+	}
+};
+
+]]></script>
+	</head>
+	<body ev:onpageload="scwin.onpageload">
+    <xf:group id="" class="pop_contents flex_gvw">
+    	<xf:group class="btnbox" id="" style="">
+    		<xf:trigger class="" id="btn_roadname" style="width:50%" type="button" ev:onclick="scwin.btn_roadname_onclick">
+    			<xf:label><![CDATA[도로명주소]]></xf:label>
+    		</xf:trigger><xf:trigger class="" id="btn_jibun" style="width : 50%;background-color: #E0FCF9;" type="button"
+    			ev:onclick="scwin.btn_jibun_onclick">
+    			<xf:label><![CDATA[지번주소]]></xf:label>
+    		</xf:trigger>
+    		
+    	</xf:group>
+    	<xf:group class="msg_box info" id="" style="min-height:auto;">
+    			<w2:textbox class="txt_msg" id="txt_exp" label="" style="" tagname=""></w2:textbox>
+    			<w2:textbox class="txt_con" escape="false" for="" id="txt_exp2" label="" style="" tagname="">
+    			</w2:textbox>
+    		</xf:group>
+    	<xf:group class="shbox" id="grp_search" style="">
+    		<xf:group class="shbox_inner" id="" style="">
+    			<xf:group adaptive="layout" adaptiveThreshold="768" class="w2tb tb" id="tbl_search" style="width:100%;" tagname="table">
+    				<w2:attributes>
+    					<w2:summary></w2:summary>
+    				</w2:attributes>
+    				<xf:group tagname="colgroup">
+    					<xf:group style="width:80px;" tagname="col"></xf:group>
+    					<xf:group style="" tagname="col"></xf:group>
+    				</xf:group>
+    				<xf:group style="" tagname="tr">
+    					<xf:group class="w2tb_th " style="" tagname="th">
+    						<w2:textbox class="req" id="" label="검색어" style=""></w2:textbox>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes></w2:attributes>
+    						<xf:input class="" id="ibx_searchKeyword" placeholder="주소명(동/읍/면/리/가) 입력" style="width:100%;" ref="data:dma_searchParam.SEARCH_KEYWORD" >
+    						</xf:input>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    		<xf:group class="btn_shbox" id="" style="">
+    			<xf:trigger class="btn_cm sch" disabled="" id="btn_searchZip" style="" type="button"
+    				ev:onclick="scwin.btn_searchZip_onclick">
+    				<xf:label><![CDATA[조회]]></xf:label>
+    			</xf:trigger>
+    		</xf:group>
+    	</xf:group>
+    	<xf:group id="grp_address">
+    		
+    		</xf:group><xf:group adaptiveThreshold="" style="" id="" class="df_box">
+    			<xf:group style="" id="" class="dfbox">
+    				<w2:textbox tagname="h4" style="" id="" label="주소지 선택 후 상세주소를 입력해주세요" class=""></w2:textbox>
+    			</xf:group>
+
+
+    			<xf:group adaptiveThreshold="" class="gvwbox" id="" style="">
+    				<w2:gridView autoFit="lastColumn" autoFitMinWidth="" captionTitle="" checkReadOnlyOnCut="" class="wq_gvw"
+    					dataList="data:dlt_zipCode" defaultCellHeight="26" ev:oncelldblclick="scwin.grd_zipCode_oncelldblclick" focusMode="row"
+    					id="grd_zipCode" readOnly="true" rowStatusHeaderValue="상태" rowStatusVisible="false" scrollByColumn="false"
+    					scrollByColumnAdaptive="false" style="height:245px;" ev:oncellclick="scwin.grd_zipCode_oncellclick">
+    					<w2:caption id="caption1" style="" value="this is a grid caption."></w2:caption>
+    					<w2:header id="header1" style="">
+    						<w2:row id="row1" style="">
+    							<w2:column width="70" inputType="text" style="" id="column5" value="선택" displayMode="label"></w2:column>
+    							<w2:column blockSelect="false" displayMode="label" id="column2" inputType="text" removeBorderStyle="false"
+    								style="" value="우편번호" width="100">
+    							</w2:column>
+    							<w2:column displayMode="label" id="column3" inputType="text" style="" value="" width="50"></w2:column>
+    							<w2:column blockSelect="false" displayMode="label" id="column1" inputType="text" removeBorderStyle="false"
+    								style="" value="주소" width="509">
+    							</w2:column>
+    						</w2:row>
+    					</w2:header>
+    					<w2:gBody id="gBody1" style="">
+    						<w2:row style="" id="row4">
+    							<w2:column width="70" inputType="radio" style="height:0px;" id="chk" value="" displayMode="label"
+    								colSpan="" rowSpan="2" readOnly="false">
+    							</w2:column>
+    							<w2:column width="100" inputType="text" style="height:0px;" id="ZIP_CD" value="" displayMode="label"
+    								colSpan="" rowSpan="2">
+    							</w2:column>
+    							<w2:column width="50" inputType="text" style="height:0px;" id="column11" value="" displayMode="label"
+    								colSpan="" rowSpan="2">
+    							</w2:column>
+    							<w2:column width="509" inputType="text" style="" id="ADDR1" value="" displayMode="label" textAlign="left"></w2:column>
+    						</w2:row>
+    						<w2:row id="row2" style="">
+    							<w2:column blockSelect="false" displayMode="label" id="ADDR2" inputType="text" removeBorderStyle="false"
+    								style="" textAlign="left" value="" width="509">
+    							</w2:column>
+    						</w2:row>
+    					</w2:gBody>
+    				</w2:gridView>
+    			</xf:group>
+    		</xf:group><xf:group style="" id="" class="dfbox"></xf:group><xf:group style="" id="">
+    		<xf:group style="" id="" class="dfbox">
+    			<w2:textbox tagname="h4" style="" id="" label="상세 주소 입력" class=""></w2:textbox>
+    		</xf:group><xf:group style="" id="" class="tbbox">
+    			<xf:group adaptive="layout" adaptiveThreshold="600" tagname="table" style="" id="" class="w2tb tb">
+    				<w2:attributes>
+    					<w2:summary></w2:summary>
+    				</w2:attributes>
+    				<xf:group tagname="colgroup">
+    					<xf:group tagname="col" style="width:150px;"></xf:group>
+    					<xf:group tagname="col" style=""></xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr" style="">
+    					<xf:group tagname="th" style="" class="w2tb_th">
+    						<w2:textbox ref="" style="" userData2="" id="" label="기본주소" class="req"></w2:textbox>
+    					</xf:group>
+    					<xf:group tagname="td" style="" class="w2tb_td">
+    						<w2:span label="" style="" id="txt_baseAddr"></w2:span>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group tagname="tr">
+    					<xf:group tagname="th" class="w2tb_th ">
+    						<w2:attributes>
+    							<w2:scope>row</w2:scope>
+    						</w2:attributes>
+    						<w2:textbox ref="" style="" userData2="" id="" label="상세주소" class=""></w2:textbox>
+    					</xf:group>
+    					<xf:group tagname="td" class="w2tb_td">
+    						<w2:attributes>
+    							<w2:colspan>1</w2:colspan>
+    							<w2:rowspan>1</w2:rowspan>
+    						</w2:attributes>
+    						<xf:input style="width:100%;" id="txt_detailAddress"></xf:input>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    		
+    	</xf:group><xf:group class="msg_box info" id="" style="min-height:auto;">
+    				<w2:textbox class="txt_msg" id="tbx_textbox1" label="기본주소 선택 후 상세주소를 반드시 입력해주세요. 상세주소가 없는 경우 주소지 특징을 입력해주세요." style="" tagname=""></w2:textbox>
+    				<w2:textbox class="txt_con" escape="false" for="" id="txt_textbox2" label="2016년 8월 1일부터는 5자리 우편번호 사용이 의무화됩니다." style="" tagname=""></w2:textbox>
+    			</xf:group><xf:group class="btnbox" id="" style="">
+    		<xf:group class="fr" id="">
+    			<xf:trigger class="btn_cm pt" id="btn_addZip" style="" type="button" ev:onclick="scwin.btn_addZip_onclick">
+    				<xf:label><![CDATA[주소입력]]></xf:label>
+    			</xf:trigger>
+    			<xf:trigger class="btn_cm" id="btn_cancel" style="" type="button" ev:onclick="scwin.btn_cancel_onclick">
+    				<xf:label><![CDATA[취소]]></xf:label>
+    			</xf:trigger>
+    		</xf:group>
+    	</xf:group>
+
+    	
+    </xf:group>
+	</body>
+</html>

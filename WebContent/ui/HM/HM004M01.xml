@@ -1,0 +1,164 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">   
+    <head>       	
+        <w2:type>COMPONENT</w2:type>   	
+        <w2:buildDate/>    	
+        <w2:MSA/>   	
+        <xf:model>
+
+        	<w2:dataCollection baseNode="map">
+        		<w2:dataList baseNode="list" repeatNode="map" id="dlt_schedule" saveRemovedData="true">
+        			<w2:columnInfo>
+        				<w2:column id="SCHE_ID" name="식별자" dataType="text"></w2:column>
+        				<w2:column id="SCHE_START" name="시작일자" dataType="text"></w2:column>
+        				<w2:column id="SCHE_END" name="마감일자" dataType="text"></w2:column>
+        				<w2:column id="MEMO" name="일정내용" dataType="text"></w2:column>
+        				<w2:column id="SCHE_THEME" name="색상" dataType="text"></w2:column>
+        				<w2:column id="SCHE_TITLE" name="일정명" dataType="text"></w2:column>
+        				<w2:column id="SCHE_CODE" name="일정구분" dataType="text"></w2:column>
+        				<w2:column id="SCHE_STIME" name="시작시간" dataType="text"></w2:column>
+        				<w2:column id="SCHE_FTIME" name="마감시간" dataType="text"></w2:column>
+        			</w2:columnInfo>
+        		</w2:dataList>
+        		<w2:dataMap baseNode="map" id="dma_select">
+        			<w2:keyInfo>
+        				<w2:key id="SCHE_ID" name="식별자" dataType="text"></w2:key>
+        				<w2:key id="SCHE_START" name="시작일자" dataType="text"></w2:key>
+        				<w2:key id="SCHE_END" name="마감일자" dataType="text"></w2:key>
+        				<w2:key id="MEMO" name="일정내용" dataType="text"></w2:key>
+        				<w2:key id="SCHE_THEME" name="색상" dataType="text"></w2:key>
+        				<w2:key id="SCHE_TITLE" name="일정명" dataType="text"></w2:key>
+        				<w2:key id="SCHE_CODE" name="일정구분" dataType="text"></w2:key>
+        				<w2:key id="SCHE_STIME" name="시작시간" dataType="text"></w2:key>
+        				<w2:key id="SCHE_FTIME" name="마감시간" dataType="text"></w2:key>
+        			</w2:keyInfo>
+        		</w2:dataMap>
+        	</w2:dataCollection>
+        	<w2:workflowCollection />
+        	<xf:submission id="sbm_schedule" ref="data:json,dma_select" target="data:json,dlt_schedule" action="/schedule" method="post"
+        		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
+        		processMsg="" ev:submit="" ev:submitdone="scwin.sbm_schedule_submitdone" ev:submiterror="" abortTrigger="">
+        	</xf:submission>
+        	<xf:submission id="sbm_save" ref="data:json,dlt_schedule" target="" action="/schedule/insert" method="post"
+        		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
+        		processMsg="" ev:submit="" ev:submitdone="" ev:submiterror="" abortTrigger="">
+        	</xf:submission>
+        </xf:model>
+
+        <w2:layoutInfo/>
+            	
+        <w2:publicInfo method=""/>
+            	
+        <script lazy="false" type="text/javascript"><![CDATA[scwin.onpageload = function() {
+	// 모든 일정 조회
+	com.sbm.execute(sbm_schedule);
+};
+
+// Calendar를 클릭 또는 드래그할 때
+scwin.cal_onclick = function(retObj) {
+	// 초기화
+	dma_select.initRowStatus();
+
+	// 팝업 실행
+	scwin.popUp(retObj);
+};
+
+// 팝업창 불러오는 함수
+scwin.popUp = function(retObj) {
+	// 기존 일정이 있을 경우 상세 조회 페이지로 이동
+	if(retObj.id != null || retObj.title != null) {
+
+		// 클릭된 정보를 검색해 행 데이터 모두를 가져온다
+		var selEvent = dlt_schedule.getMatchedJSON("SCHE_ID", retObj.id);	
+
+		var sel = {
+			"SCHE_ID" : selEvent[0].SCHE_ID,
+			"SCHE_TITLE" : selEvent[0].SCHE_TITLE,
+			"SCHE_START" : selEvent[0].SCHE_START,
+			"SCHE_END" : selEvent[0].SCHE_END,
+			"SCHE_THEME" : selEvent[0].SCHE_THEME,
+			"SCHE_STIME" : selEvent[0].SCHE_STIME,
+			"SCHE_FTIME" : selEvent[0].SCHE_FTIME,
+			"SCHE_CODE" : selEvent[0].SCHE_CODE,
+			"MEMO" : selEvent[0].MEMO
+		}
+
+		// 검색된 데이터를 DataMap에 바인딩
+		dma_select.setJSON(sel);
+
+		var row = dma_select.getJSON();
+		var data = { 
+			data : row,
+			callbackFn : "scwin.readSchedule"
+		 };
+
+		var url = "/ui/HM/HM004P02.xml";
+		var opt = {
+			id : "select",
+			popupName : "상세 일정 조회",
+			width: 450,
+			height: 430,
+			modal: true,
+			type : "wframePopup",
+		}
+
+		com.win.openPopup(url, opt, data);
+
+	// 등록된 일정이 아닐 경우 일정 등록 페이지 팝업
+	} else {
+		
+		// 클릭으로 선택된 정보들을 DataMap에 담는다.
+		var start = com.date.formatDateTime(retObj.start);
+		var end = com.date.formatDateTime(retObj.end);
+		
+		var selInfo = {
+		"SCHE_START" : start,
+		"SCHE_END" : end
+		}
+
+		dma_select.setJSON(selInfo);
+		
+		var data = {
+			data : dma_select.getJSON(),
+			callbackFn : "scwin.readSchedule"
+		};
+
+		var url = "/ui/HM/HM004P01.xml";
+		var opt = {
+			id : "insert",
+			popupName : "일정 등록",
+			width: 450,
+			height: 430,
+			modal : true,
+			type : "wframePopup"
+		};
+		
+		com.win.openPopup(url, opt, data);
+	}
+};
+
+// 일정 조회 함수
+scwin.readSchedule = function() {
+	com.sbm.execute(sbm_schedule);
+};
+
+]]></script>
+            
+    </head>
+        
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group id="" style="" class="sub_contents flex_gvw">
+    		<w2:wframe id="wfm_header" src="../../cm/xml/contentHeader.xml" style=";height:30px;margin-bottom:16px;"></w2:wframe>
+    		<xf:group id="" style="" class="dfbox">
+    			<w2:textbox id="" label="일정 내역" style="" tagname="h3"></w2:textbox>
+    			<xf:group id="" style="" class="fr">
+    			</xf:group>
+    		</xf:group>
+    		<xf:group id="" style="display: flex;justify-content: start;margin-top: 15px;" class="">
+    			<w2:scheduleCalendar selectable="false" ioFormat="yyyyMMdd" id="cal" lang="" defaultDate="" editable="true" headerRightBtn=""
+    				titleColumn="SCHE_TITLE" startColumn="SCHE_START" dataList="data:dlt_schedule" style="width: 100%;height: 550px;" headerLeftBtn="true" idColumn="SCHE_ID" headerTitle="" version="3.6" ev:onclick="scwin.cal_onclick" endColumn="SCHE_END" themeColumn="SCHE_THEME" eventOrderColumn="SCHE_STIME">
+    			</w2:scheduleCalendar>
+    		</xf:group>
+    	</xf:group>
+    </body>
+
+</html>

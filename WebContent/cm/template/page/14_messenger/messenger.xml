@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map"/>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+scwin.onpageload = function() {
+	$(".btn_fav").click(function(){
+					$(".btn_fav").toggleClass("on");
+				});
+};
+
+scwin.msgTab_onclick = function(e) {
+    $('.messenger').find('.tab').find('.on').removeClass('on');
+    var li = $(this)[0];
+    li.addClass('on');
+};
+
+scwin.chatOpen_onclick = function(e) {
+    $('.messenger').addClass('open');
+};
+
+scwin.chatClose_onclick = function(e) {
+    $('.messenger').removeClass('open');
+};]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="sub_contents" id="" style="">
+    		<xf:group class="messenger" id="">
+    			<xf:group class="chat_list" id="">
+    				<xf:group class="titlebox" id="" style="">
+    					<xf:trigger class="close" id="" style="" type="button">
+    						<xf:label><![CDATA[Close]]></xf:label>
+    					</xf:trigger>
+    					<w2:textbox class="title" id="" label="Message" style="" tagname="span"></w2:textbox>
+    				</xf:group>
+    				<xf:group class="tab" id="" style="" tagname="ul">
+    					<xf:group class="on" ev:onclick="scwin.msgTab_onclick" id="" tagname="li">
+    						<w2:textbox id="" label="All" style="" tagname="span"></w2:textbox>
+    						<w2:span class="badge" id="" label="5" style=""></w2:span>
+    					</xf:group>
+    					<xf:group class="" ev:onclick="scwin.msgTab_onclick" id="" style="" tagname="li">
+    						<w2:textbox id="" label="Read" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    					<xf:group class="" ev:onclick="scwin.msgTab_onclick" id="" style="" tagname="li">
+    						<w2:textbox id="" label="Unread" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group class="list" id="" style="" tagname="ul">
+    					<xf:group class="" ev:onclick="scwin.chatOpen_onclick" id="" tagname="li">
+    						<xf:image alt="프로필사진" class="profile" id="" src="/cm/images/base/msg_profile1.png" style=""></xf:image>
+    						<xf:group class="textbox" id="">
+    							<w2:textbox class="name" id="" label="Team A" style="" tagname="span"></w2:textbox>
+    							<w2:span class="badge" id="" label="5" style=""></w2:span>
+    							<w2:textbox class="preview" id="" label="오늘 하루 고생하셨습니다." style="" tagname="div"></w2:textbox>
+    						</xf:group>
+    						<w2:span class="time" id="" label="09:00" style=""></w2:span>
+    					</xf:group>
+    					<xf:group class="" ev:onclick="scwin.chatOpen_onclick" id="" style="" tagname="li">
+    						<xf:image alt="프로필사진" class="profile" id="" src="/cm/images/base/msg_profile1.png" style=""></xf:image>
+    						<xf:group class="textbox" id="">
+    							<w2:textbox class="name" id="" label="Team B" style="" tagname="span"></w2:textbox>
+    							<w2:textbox class="preview" id="" label="오늘 하루 고생하셨습니다." style="" tagname="div"></w2:textbox>
+    						</xf:group>
+    						<w2:span class="time" id="" label="09:00" style=""></w2:span>
+    					</xf:group>
+    					<xf:group class="" ev:onclick="scwin.chatOpen_onclick" id="" style="" tagname="li">
+    						<xf:image alt="프로필사진" class="profile" id="" src="/cm/images/base/msg_profile1.png" style=""></xf:image>
+    						<xf:group class="textbox" id="">
+    							<w2:textbox class="name" id="" label="Team C" style="" tagname="span"></w2:textbox>
+    							<w2:textbox class="preview" id="" label="안녕하세요. 라이프레시피에서 구매하신 소중한 상품이 배송완료 처리되었습니다." style=""
+    								tagname="div">
+    							</w2:textbox>
+    						</xf:group>
+    						<w2:span class="time" id="" label="09:00" style=""></w2:span>
+    					</xf:group>
+    					<xf:group class="" ev:onclick="scwin.chatOpen_onclick" id="" style="" tagname="li">
+    						<xf:image alt="프로필사진" class="profile" id="" src="/cm/images/base/msg_profile1.png" style=""></xf:image>
+    						<xf:group class="textbox" id="">
+    							<w2:textbox class="name" id="" label="Team D" style="" tagname="span"></w2:textbox>
+    							<w2:textbox class="preview" id="" label="원격지원 합니다" style="" tagname="div"></w2:textbox>
+    						</xf:group>
+    						<w2:span class="time" id="" label="09:00" style=""></w2:span>
+    					</xf:group>
+    					<xf:group class="" ev:onclick="scwin.chatOpen_onclick" id="" style="" tagname="li">
+    						<xf:image alt="프로필사진" class="profile" id="" src="/cm/images/base/msg_profile1.png" style=""></xf:image>
+    						<xf:group class="textbox" id="">
+    							<w2:textbox class="name" id="" label="Team E" style="" tagname="span"></w2:textbox>
+    							<w2:textbox class="preview" id="" label="내일 복귀합니다" style="" tagname="div"></w2:textbox>
+    						</xf:group>
+    						<w2:span class="time" id="" label="09:00" style=""></w2:span>
+    					</xf:group>
+    					<xf:group class="" ev:onclick="scwin.chatOpen_onclick" id="" style="" tagname="li">
+    						<xf:image alt="프로필사진" class="profile" id="" src="/cm/images/base/msg_profile1.png" style=""></xf:image>
+    						<xf:group class="textbox" id="">
+    							<w2:textbox class="name" id="" label="Team F" style="" tagname="span"></w2:textbox>
+    							<w2:textbox class="preview" id="" label="일정 공유 바랍니다." style="" tagname="div"></w2:textbox>
+    						</xf:group>
+    						<w2:span class="time" id="" label="09:00" style=""></w2:span>
+    					</xf:group>
+    					<xf:group class="" ev:onclick="scwin.chatOpen_onclick" id="" style="" tagname="li">
+    						<xf:image alt="프로필사진" class="profile" id="" src="/cm/images/base/msg_profile1.png" style=""></xf:image>
+    						<xf:group class="textbox" id="">
+    							<w2:textbox class="name" id="" label="Team G" style="" tagname="span"></w2:textbox>
+    							<w2:textbox class="preview" id="" label="부산 출장갑니다." style="" tagname="div"></w2:textbox>
+    						</xf:group>
+    						<w2:span class="time" id="" label="09:00" style=""></w2:span>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group class="chat" id="" style="">
+    				<xf:group class="titlebox" id="" style="">
+    					<xf:trigger class="close" ev:onclick="scwin.chatClose_onclick" id="" style="" type="button">
+    						<xf:label><![CDATA[Close]]></xf:label>
+    					</xf:trigger>
+    					<xf:trigger class="back" ev:onclick="scwin.chatClose_onclick" id="" style="" type="button">
+    						<xf:label><![CDATA[Back]]></xf:label>
+    					</xf:trigger>
+    					<w2:textbox class="title" id="" label="인스웨이브" style="" tagname="span"></w2:textbox>
+    				</xf:group>
+    				<xf:group class="message_wrap" id="">
+    					<xf:group class="message" id="">
+    						<xf:group class="receive" id="">
+    							<xf:image alt="프로필사진" class="profile" id="" src="/cm/images/base/msg_profile1.png" style=""></xf:image>
+    							<xf:group class="msg_wrap" id="" tagname="span">
+    								<w2:span class="msg" id="" label="안녕하세요" style=""></w2:span>
+    								<w2:span class="time" id="" label="09:00" style=""></w2:span>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group class="receive" id="" style="">
+    							<xf:image alt="프로필사진" class="profile" id="" src="/cm/images/base/msg_profile1.png" style=""></xf:image>
+    							<xf:group class="msg_wrap" id="" tagname="span">
+    								<w2:span class="msg" id="" label="ㅇㅇㅇ 선임님" style=""></w2:span>
+    								<w2:span class="time" id="" label="09:00" style=""></w2:span>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group class="send" id="">
+    							<xf:group class="msg_wrap" id="" tagname="span">
+    								<w2:span class="msg" id="" label="네" style=""></w2:span>
+    								<w2:span class="time" id="" label="09:00" style=""></w2:span>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group class="send" id="" style="">
+    							<xf:group class="msg_wrap" id="" tagname="span">
+    								<w2:span class="msg" id="" label="무슨 일이신가요?" style=""></w2:span>
+    								<w2:span class="time" id="" label="09:00" style=""></w2:span>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group class="receive" id="" style="">
+    							<xf:image alt="프로필사진" class="profile" id="" src="/cm/images/base/msg_profile1.png" style=""></xf:image>
+    							<xf:group class="msg_wrap" id="" tagname="span">
+    								<xf:group class="msg" id="" style="" tagname="span">
+    									<w2:span class="dot" id="" label="" style=""></w2:span>
+    									<w2:span class="dot" id="" label="" style=""></w2:span>
+    									<w2:span class="dot" id="" label="" style=""></w2:span>
+    								</xf:group>
+    							</xf:group>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group class="sendbox" id="">
+    						<xf:group class="text_wrap" id="">
+    							<xf:textarea id="" style="" title="내용 입력"></xf:textarea>
+    							<w2:upload class="file" id="" imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word"
+    								inputStyle="vertical-align:middle;word-wrap:break-word" style="width: 40px;height: 40px;" title="파일 추가">
+    							</w2:upload>
+    						</xf:group>
+    						<xf:trigger class="btn_send" id="" style="width: 40px;" title="전송" type="button">
+    							<xf:label><![CDATA[전송]]></xf:label>
+    						</xf:trigger>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

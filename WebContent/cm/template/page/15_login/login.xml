@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map"/>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+scwin.onpageload = function() {
+	
+};
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="login_wrap" id="" style="background: url(/cm/images/base/bg_w.png) no-repeat #2D4874;">
+    		<xf:group class="login_container" id="">
+    			<xf:group id="" tagname="h1">
+    				<xf:image alt="인스웨이브" id="" src="/cm/images/base/img_wlogo.png" style=""></xf:image>
+    			</xf:group>
+    			<xf:group class="login_contents" id="" style="">
+    				<xf:group id="" tagname="ul">
+    					<xf:group id="" tagname="li">
+    						<w2:textbox for="user_id" id="" label="ID" style="" tagname="label"></w2:textbox>
+    						<xf:input adjustMaxLength="false" id="user_id" placeholder="아이디를 입력해주세요." style=""></xf:input>
+    					</xf:group>
+    					<xf:group id="" tagname="li">
+    						<w2:textbox for="user_pw" id="" label="Password" style="" tagname="label"></w2:textbox>
+    						<xf:input adjustMaxLength="false" id="user_pw" placeholder="비밀번호를 입력해주세요." style="" type="password"></xf:input>
+    					</xf:group>
+    					<xf:group id="" style="" tagname="li">
+    						<xf:trigger class="btn_login" id="" style="" type="button">
+    							<xf:label><![CDATA[LOGIN]]></xf:label>
+    						</xf:trigger>
+    					</xf:group>
+    					<xf:group class="last" id="" style="" tagname="li">
+    						<w2:anchor id="" outerDiv="false" style="">
+    							<xf:label><![CDATA[아이디찾기]]></xf:label>
+    						</w2:anchor>
+    						<w2:anchor id="" outerDiv="false" style="">
+    							<xf:label><![CDATA[비밀번호찾기]]></xf:label>
+    						</w2:anchor>
+    						<w2:anchor id="" outerDiv="false" style="">
+    							<xf:label><![CDATA[회원가입]]></xf:label>
+    						</w2:anchor>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

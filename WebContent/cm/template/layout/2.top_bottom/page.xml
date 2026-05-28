@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+    	<w2:type>LAYOUT</w2:type>
+    	<w2:buildDate />
+    	<xf:model>
+    		<xf:instance>
+    			<data xmlns="" />
+    		</xf:instance>
+    		<w2:dataCollection baseNode="map"></w2:dataCollection>
+    		<w2:workflowCollection></w2:workflowCollection>
+    		<w2:mediaInfo>
+			</w2:mediaInfo>    		
+    	</xf:model>
+    	<script lazy="false" type="text/javascript"><![CDATA[        
+	scwin.onpageload = function() {
+		
+	};		
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="wrap show_menu has_foot none_side" id="" style="">
+    		<w2:wframe class="header" id="" style=""></w2:wframe>
+    		<xf:group class="container" id="" style="">
+    			<w2:wframe class="contents" id="" style=""></w2:wframe>
+    		</xf:group>
+    		<w2:wframe style="" id="" class="footer"></w2:wframe>
+    	</xf:group>
+    </body>
+</html>

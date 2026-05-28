@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head meta_programId="BM009M01" meta_author="Inswave Systems" meta_programName="공휴일 관리" meta_date="2023.09.21" meta_programDesc="공휴일 데이터를 관리(등록, 수정, 삭제)하는 화면">
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+        	<w2:dataCollection baseNode="map">
+        		<w2:dataList baseNode="list" repeatNode="map" id="dlt_holiday" saveRemovedData="true">
+        			<w2:columnInfo>
+        				<w2:column id="CHECK" name="CHECK" dataType="text"></w2:column>
+        				<w2:column id="REST_DATE" name="휴일날짜" dataType="text"></w2:column>
+        				<w2:column id="REST_NAME" name="휴일명" dataType="text"></w2:column>
+        				<w2:column id="REST_CODE" name="휴일구분" dataType="text"></w2:column>
+        				<w2:column id="NOTE" name="휴일설명" dataType="text"></w2:column>
+        				<w2:column id="REST_SEQ" name="번호" dataType="text"></w2:column>
+        			</w2:columnInfo>
+        			<w2:data use="false"></w2:data>
+        		</w2:dataList>
+        		<w2:dataMap baseNode="map" id="dma_search">
+        			<w2:keyInfo>
+        				<w2:key id="REST_DATE" name="연도" dataType="text"></w2:key>
+        				<w2:key id="REST_CODE" name="휴일구분" dataType="text"></w2:key>
+        				<w2:key id="REST_NAME" name="휴일명" dataType="text"></w2:key>
+        			</w2:keyInfo>
+        		</w2:dataMap>
+        		<w2:dataList baseNode="list" repeatNode="map" id="dlt_code" saveRemovedData="true">
+        			<w2:columnInfo>
+        				<w2:column id="REST_CODE" name="휴일구분코드" dataType="text"></w2:column>
+        				<w2:column id="REST_CODENAME" name="휴일구분명" dataType="text"></w2:column>
+        			</w2:columnInfo>
+        			<w2:data use="true">
+        				<w2:row>
+        					<REST_CODE><![CDATA[0]]></REST_CODE>
+        					<REST_CODENAME><![CDATA[법정]]></REST_CODENAME>
+        				</w2:row>
+        				<w2:row>
+        					<REST_CODE><![CDATA[1]]></REST_CODE>
+        					<REST_CODENAME><![CDATA[임시]]></REST_CODENAME>
+        				</w2:row>
+        				<w2:row>
+        					<REST_CODE><![CDATA[2]]></REST_CODE>
+        					<REST_CODENAME><![CDATA[사내]]></REST_CODENAME>
+        				</w2:row>
+        			</w2:data>
+        		</w2:dataList>
+        		<w2:dataList baseNode="list" repeatNode="map" id="dlt_grdShow" saveRemovedData="true">
+        			<w2:columnInfo>
+        				<w2:column id="CHECK" name="CHECK" dataType="text"></w2:column>
+        				<w2:column id="REST_DATE" name="휴일날짜" dataType="text"></w2:column>
+        				<w2:column id="REST_NAME" name="휴일명" dataType="text"></w2:column>
+        				<w2:column id="REST_CODE" name="휴일구분" dataType="text"></w2:column>
+        				<w2:column id="NOTE" name="휴일설명" dataType="text"></w2:column>
+        				<w2:column id="REST_SEQ" name="번호" dataType="text"></w2:column>
+        			</w2:columnInfo>
+        		</w2:dataList>
+        	</w2:dataCollection>
+        	<w2:workflowCollection />
+        	<xf:submission id="sbm_holiday" ref="data:json,dma_search" target="data:json,dlt_holiday" action="/holiday/selectHoliday" method="post"
+        		mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous"
+        		processMsg="" ev:submitdone="scwin.sbm_holiday_submitdone" ev:submiterror="" abortTrigger="" ev:submit="">
+        	</xf:submission>
+        	<xf:submission id="sbm_save" ref='data:json,{"action":"modified","id":"dlt_holiday"}' target="" action="/holiday/save"
+        		method="post" mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler=""
+        		mode="asynchronous" processMsg="" ev:submitdone="scwin.sbm_save_submitdone" ev:submiterror="" abortTrigger="" ev:submit="">
+        	</xf:submission>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[scwin.onpageload = function() {
+	com.win.setEnterKeyEvent(tbl_search, scwin.btn_search_onclick);
+};
+
+/**
+ * 화면 초기화 데이터가 모두 로딩되면 발생하는 이벤트
+ */
+scwin.ondataload = function() {
+    scwin.btn_search_onclick();
+}
+
+/**
+ * 공휴일 목록을 조회한다
+ */
+scwin.btn_search_onclick = function(e) {
+    // REST_DATE : 공휴일 날짜
+    // REST_CODE : 공휴일 구분코드
+    // REST_NAME : 공휴일명    
+    dma_search.set("REST_DATE", sbx_year.getValue());
+    dma_search.set("REST_CODE", sbx_code.getValue());
+    dma_search.set("REST_NAME", ip_text.getValue());
+
+    com.sbm.execute(sbm_holiday);
+};
+
+/**
+ * 휴일명 입력창에서 Enter를 누른 경우의 조회
+ */
+// scwin.ip_text_oneditenter = function() {
+//       com.sbm.execute(sbm_holiday);
+// };
+
+/**
+ * GridView에 새로 생성된 행의 모든 정보가 삭제된다                                                                                          
+ */
+scwin.btn_cancel_onclick = function(e) {
+    com.data.undoGridView(grd_holiday);
+};
+
+/**
+ * 코드의 필수 입력 정보를 체크한다. (유효성검사관련)
+ */
+scwin.validateCode = function() {
+    var valInfo = [
+        { id: "REST_DATE", mandatory: true },
+        { id: "REST_CODE", mandatory: true },
+        { id: "REST_NAME", mandatory: true }
+    ];
+    return com.data.validateGridView(grd_holiday, valInfo);
+};
+
+/**
+ * 유효성 검사 후 공휴일 목록을 저장한다
+ */
+scwin.saveHoliday = function (res) {
+    if (scwin.validateCode()) {
+		if (res.clickValue === true) {
+			com.sbm.execute(sbm_save);
+		}
+	}
+};
+
+/**
+ * 공휴일 목록 데이터 저장 클릭
+ */
+scwin.btn_save_onclick = function(e) {
+    if(com.data.isModified(dlt_holiday)) {
+        com.win.confirm(com.data.getMessage("MSG_CM_00031"), scwin.saveHoliday);
+    } else {
+        com.win.alert(com.data.getMessage("MSG_CM_00032"));
+    }
+};
+
+/**
+ * 추가, 수정, 삭제된 공휴일 목록 데이터를 Calendar에 반영
+ */
+scwin.sbm_save_submitdone = function(e) {
+    if(com.sbm.getResultCode(e) == gcm.MESSAGE_CODE.STATUS_SUCCESS) {
+        scwin.btn_search_onclick();
+    }
+};
+
+/**
+ * 공휴일 목록 추가
+ */
+scwin.btn_addGrpCell_onclick = function(e) {
+    var focus = grd_holiday.getFocusedRowIndex();
+    com.data.insertRow(grd_holiday);
+};
+
+/**
+ * 셀 클릭 시
+ */
+scwin.grd_holiday_oncellclick = function(row,col) {
+    if(col == 0) {
+        var rowStatus = dlt_holiday.getRowStatus(row);
+        if( rowStatus == "C") { // 추가된 행 
+            dlt_holiday.deleteRow(row);
+        } else {
+            var chk_val = dlt_holiday.getCellData(row, col);
+            if( chk_val == "1" ) {
+                dlt_holiday.modifyRowStatus(row, "D");
+            } else {
+                dlt_holiday.undoRow(row);
+            }
+        }
+    } 
+};
+
+/**
+ * 조회된 데이터의 개수 출력
+ */
+scwin.sbm_holiday_submitdone = function(e) {
+    spn_HolidayCnt.setValue(dlt_holiday.getRowCount());
+    $p.top().dlt_holiday.setJSON(e.responseJSON.dlt_holiday);
+};
+
+/**
+ * 액셀 다운로드
+ */
+scwin.btn_excelDownload_onclick = function(e) {
+    com.data.downloadGridViewExcel(grd_holiday);
+};
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group id="" style="" class="sub_contents flex_gvw">
+    		<w2:wframe style=";height:30px;margin-bottom:16px;" id="wfm_header" src="../../cm/xml/contentHeader.xml"></w2:wframe>
+    		<xf:group id="" style="" class="shbox">
+    			<xf:group id="tbl_search" style="position:relative;vertical-align:bottom;box-sizing: border-box;" class="shbox_inner">
+    				<xf:group tagname="table" style="" id="" class="w2tb tb" adaptive="layout" adaptiveThreshold="900">
+    					<w2:attributes>
+    						<w2:summary></w2:summary>
+    					</w2:attributes>
+    					<xf:group tagname="caption"></xf:group>
+    					<xf:group tagname="colgroup">
+    						<xf:group tagname="col" style="width:3.10%;"></xf:group>
+    						<xf:group tagname="col" style="width:4.02%;"></xf:group>
+    						<xf:group tagname="col" style="width:3.06%;"></xf:group>
+    						<xf:group tagname="col" style="width:4.33%;"></xf:group>
+    						<xf:group tagname="col" style="width:3.18%;"></xf:group>
+    						<xf:group tagname="col" style="width:24.24%;"></xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr">
+    						<xf:group tagname="th" style=";border:none;" class="w2tb_th">
+    							<w2:attributes>
+    								<w2:scope>col</w2:scope>
+    							</w2:attributes>
+    							<w2:textbox class="" id="" label="연도" style=""></w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="th" class="w2tb_td" style="border: none;">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<w2:inputCalendar id="sbx_year" style="width:100%;" calendarValueType="year" pickerType="dynamic"></w2:inputCalendar>
+    						</xf:group>
+    						<xf:group tagname="th" class="w2tb_th" style=";border:none;">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<w2:textbox id="" label="휴일구분" style="display:inline-block;text-align: right;" class=""></w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="th" class="w2tb_td" style="">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:select1 allOption="true" appearance="minimal" chooseOption="" direction="auto" disabled="false"
+    								disabledClass="w2selectbox_disabled" id="sbx_code" style="width: 100%;text-align:center;" submenuSize="auto" ref="">
+    								<xf:choices>
+    									<xf:itemset nodeset="data:dlt_code">
+    										<xf:label ref="REST_CODENAME"></xf:label>
+    										<xf:value ref="REST_CODE"></xf:value>
+    									</xf:itemset>
+    								</xf:choices>
+    							</xf:select1>
+    						</xf:group>
+    						<xf:group tagname="th" class="w2tb_th" style=";border:none;">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<w2:textbox id="" label="휴일명" style="display:inline-block;text-align:right;" class=""></w2:textbox>
+    						</xf:group>
+    						<xf:group tagname="th" class="w2tb_td" style="border:none;text-align: left;">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:input id="ip_text" style="width:45%;" placeholder="휴일명을 입력해주세요."
+    								ev:oneditenter="scwin.ip_text_oneditenter">
+    							</xf:input>
+    						</xf:group>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group id="" style="width:75px;height:26px;" class="btn_shbox">
+    				<xf:trigger type="button" id="btn_search" style="" ev:onclick="scwin.btn_search_onclick" class="btn_cm sch">
+    					<xf:label><![CDATA[조회]]></xf:label>
+    				</xf:trigger>
+    			</xf:group>
+    		</xf:group>
+    		<xf:group id="" style="height: 26px;margin-bottom: 8px;">
+    			<w2:textbox id="" label="공휴일" style="width:48px;height:23px;display:inline-block;" tagname="h3"></w2:textbox>
+    			<xf:group id="" style="display:block;float:right;">
+    				<w2:textbox id="spn_HolidayCnt" label=""
+    					style="display:inline-block;font-weight:bold;color:#e98c3b;vertical-align: middle;">
+    				</w2:textbox>
+    				<w2:textbox id="" label="건"
+    					style="width:19px;display:inline-block;margin-right:16px;font-weight:bold;vertical-align: middle;" class="sum">
+    				</w2:textbox>
+    				<xf:trigger class="btn_cm row_add" ev:onclick="scwin.btn_addGrpCell_onclick" id="btn_addGrpCell" style=""
+    					type="button">
+    					<xf:label><![CDATA[추가]]></xf:label>
+    				</xf:trigger>
+    				<xf:trigger type="button" id="btn_cancel" style="width: 42px;height: 26px;" ev:onclick="scwin.btn_cancel_onclick"
+    					class="btn_cm">
+    					<xf:label><![CDATA[취소]]></xf:label>
+    				</xf:trigger>
+    				<xf:trigger type="button" id="btn_excelDownload" style="" class="btn_cm download"
+    					ev:onclick="scwin.btn_excelDownload_onclick">
+    					<xf:label><![CDATA[액셀 다운로드]]></xf:label>
+    				</xf:trigger>
+
+    			</xf:group>
+    		</xf:group>
+    		<xf:group id="" style="" class="gvwbox wq_flx">
+    			<w2:gridView checkAllType="false" id="grd_holiday" style="height:300px;" dataList="data:dlt_holiday" rowNumVisible="false"
+    				autoFit="lastColumn" rowNumWidth="42" defaultCellHeight="27" rowStatusVisible="true" rowStatusHeaderValue="상태"
+    				ev:oncellclick="scwin.grd_holiday_oncellclick" class="wq_gvw" rowNumHeaderValue="번호">
+    				<w2:caption style="" id="caption1" value="this is a grid caption."></w2:caption>
+    				<w2:header style="" id="header1">
+    					<w2:row style="" id="row1">
+    						<w2:column width="48" inputType="checkbox" style="" id="column23" value="CHECK" displayMode="label"></w2:column>
+    						<w2:column width="157" inputType="text" id="column22" sortable="true" value="휴일날짜" displayMode="label"></w2:column>
+    						<w2:column width="136" inputType="text" id="column21" value="휴일명" displayMode="label"></w2:column>
+    						<w2:column width="89" inputType="text" minWidth="20" id="column20" value="휴일구분" displayMode="label"></w2:column>
+    						<w2:column width="76" inputType="text" id="column19" value="휴일설명" displayMode="label"></w2:column>
+    					</w2:row>
+    				</w2:header>
+    				<w2:gBody style="" id="gBody1">
+    					<w2:row style="" id="row2">
+    						<w2:column width="48" inputType="checkbox" style="" id="CHECK" value="" displayMode="label"></w2:column>
+    						<w2:column editModeEvent="onclick" width="157" inputType="calendar" id="REST_DATE" displayMode="label"
+    							class="cal">
+    						</w2:column>
+    						<w2:column width="136" inputType="text" id="REST_NAME" displayMode="label"></w2:column>
+    						<w2:column ref="" chooseOption="" width="89" inputType="select" id="REST_CODE" allOption=""
+    							displayMode="label">
+    							<w2:choices>
+    								<w2:itemset nodeset="data:dlt_code">
+    									<w2:label ref="REST_CODENAME"></w2:label>
+    									<w2:value ref="REST_CODE"></w2:value>
+    								</w2:itemset>
+    							</w2:choices>
+    						</w2:column>
+    						<w2:column textAlign="left" width="76" inputType="text" id="NOTE" displayMode="label"></w2:column>
+    					</w2:row>
+    				</w2:gBody>
+    			</w2:gridView>
+    		</xf:group>
+
+    		<xf:group id="" style="" class="btnbox">
+    			<xf:trigger type="button" id="btn_save"
+    				style="background-color:#348FE2;color:white;display: block;min-width: 60px;height: 30px;float: right;"
+    				ev:onclick="scwin.btn_save_onclick" class="btn_cm pt">
+    				<xf:label><![CDATA[저장]]></xf:label>
+    			</xf:trigger>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

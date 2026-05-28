@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<title>WebSquare Docs</title>
+	<style type="text/css">
+		.body_style {
+			overflow: hidden;
+			margin: 0;
+			padding: 0;
+		}
+		
+		.btn_slide {
+			position: absolute;
+			left: 10px;
+			top: 15px;
+			width: 26px;
+			height: 21px;
+			padding: 0;
+			margin: 0;
+			border: 0;
+			font-size: 0;
+			line-height: 0;
+			text-indent: -9999px;
+			overflow: hidden;
+			background: url(bg_btn_side_slide_.png) 50% 50% no-repeat;
+		}
+		
+		.logo {
+			line-height: 12px;
+			font-size: 20px;
+			padding: 6px 10px;
+			float: left;
+			color: #fff;
+			font-weight: bold;
+			font-family: "Malgun Gothic", Dotum, sans-serif;
+		}
+		
+		.header_style {
+			position: relative;
+			overflow: hidden;
+			padding: 10px;
+			background: #6d426d;
+			height: 30px;
+		}
+		
+		.content_style {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 50px;
+			bottom: 0
+		}
+		
+		.left_style {
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			width: 299px;
+			height: 100%;
+			border-right: 1px solid #eee;
+		}
+		
+		.right_style {
+			position: absolute;
+			left: 300px;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			height: 100%;
+		}
+		
+		.left_iframe_style {
+			width: 100%;
+			height: 100%;
+			border: 0;
+		}
+		
+		.right_iframe_style {
+			width: 100%;
+			height: 100%;
+			border: 0;
+			border-right: 1px solid #eee;
+		}
+	</style>
+</head>
+<body class="body_style">
+	<div>
+		<div id="header" class="header_style">
+			<input type="button" id="sideToggle" class="btn_slide" value="aaaaaa">
+			<div id="textbox1" class="logo">
+				Component API 가이드 (
+				WRM				프로젝트)
+			</div>
+		</div>
+		<div id="content_style" class="content_style">
+			<div id="left_menu" class="left_style">
+				<iframe src="api_left.html" name="leftFrame" id="leftFrame"
+					title="leftFrame" class="left_iframe_style"></iframe>
+			</div>
+			<div id="right_menu" class="right_style">
+				<iframe src="cm.udc.fileMultiUpload.xml/cm.udc.fileMultiUpload.xml.html" name="mainFrame"					id="mainFrame" title="mainFrame" class="right_iframe_style" />
+			</div>
+		</div>
+	</div>
+</body>
+</html>

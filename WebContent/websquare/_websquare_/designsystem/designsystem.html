@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        <title> WebSquare </title>
+        <script type="text/javascript">
+			const url = new URL(location.href);
+        	const urlParams = url.searchParams;
+        	let contextRoot = urlParams.get("contextRoot");
+        	if (contextRoot == "/") {
+        	  contextRoot = "";
+        	}
+            var WebSquareExternal = {
+                baseURI: contextRoot + "/_websquare_/",
+				w2Config: contextRoot + "/websquare/_websquare_/designsystem/config.js",
+				configOverride: {
+					"contextRoot":{
+						"@value": contextRoot,
+					},
+					"wpack": {
+						"@use": "true",
+						"contextRoot": {
+							"@value": contextRoot,
+						},
+						"common": {
+							"@name": "com",
+							"@value": "true"
+						}
+					}
+				}
+            };
+        </script>
+        <!--  <script type="module" src="./websquareModule.js"></script>  -->
+        <script src="/websquare/_websquare_/javascriptLoader.wq?webpackType=all"></script>   
+        <script type="text/javascript">
+        </script>
+        <script type="text/javascript" src="app.js"></script>
+    </head>
+<body></body>
+</html>

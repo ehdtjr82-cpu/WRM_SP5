@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare"
+	xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:type>COMPONENT</w2:type>
+		<w2:buildDate />
+		<w2:MSA />
+		<xf:model>
+			<w2:dataCollection baseNode="map">
+				<w2:dataMap baseNode="map" id="dma_select">
+					<w2:keyInfo>
+						<w2:key id="SCHE_ID" name="식별자" dataType="text"></w2:key>
+						<w2:key id="SCHE_START" name="시작일자" dataType="text"></w2:key>
+						<w2:key id="SCHE_END" name="마감일자" dataType="text"></w2:key>
+						<w2:key id="MEMO" name="일정내용" dataType="text"></w2:key>
+						<w2:key id="SCHE_THEME" name="색상" dataType="text"></w2:key>
+						<w2:key id="SCHE_TITLE" name="일정명" dataType="text"></w2:key>
+						<w2:key id="SCHE_CODE" name="일정구분" dataType="text"></w2:key>
+						<w2:key id="SCHE_STIME" name="시작시간" dataType="text"></w2:key>
+						<w2:key id="SCHE_FTIME" name="마감시간" dataType="text"></w2:key>
+					</w2:keyInfo>
+				</w2:dataMap>
+			</w2:dataCollection>
+			<w2:workflowCollection />
+			<xf:submission id="sbm_save" ref="data:json,dma_select" target="" action="/schedule/insert" method="post"
+				mediatype="application/json" encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous" processMsg=""
+				ev:submit="" ev:submitdone="scwin.sbm_save_submitdone" ev:submiterror="" abortTrigger="">
+			</xf:submission>
+		</xf:model>
+		<w2:layoutInfo />
+		<w2:publicInfo method="" />
+		<script lazy="false" type="text/javascript"><![CDATA[scwin.onpageload = function() {
+    var param = com.data.getParameter();
+    ipt_start.setValue(param.data.SCHE_START);
+    ipt_end.setValue(param.data.SCHE_END);
+    ipt_title.focus();
+
+    scwin.closeCallbackFncName = param.callbackFn;
+};
+
+// 취소 버튼 클릭
+scwin.btn_cancel_onclick = function(e) {
+    com.win.closePopup();
+};
+
+// 일정 등록 버튼 클릭
+scwin.btn_add_onclick = function(e) {
+    scwin.insertSchedule();
+};
+
+// 일정 등록 함수
+scwin.insertSchedule = function() {
+    var sTime = sbx_stime1.getValue() + sbx_stime2.getValue();
+    var fTime = sbx_ftime1.getValue() + sbx_ftime2.getValue();
+
+    var data = {
+        "SCHE_TITLE" : ipt_title.getValue(),
+        "SCHE_START" : ipt_start.getValue(),
+        "SCHE_END" : ipt_end.getValue(),
+        "MEMO" : ipt_memo.getValue(),
+        "SCHE_CODE" : sbx_code.getValue(),
+        "SCHE_STIME" : sTime,
+        "SCHE_FTIME" : fTime,
+        "SCHE_THEME" : "{\"color\" : \"" + sbx_theme.getValue() + "\"}"
+    };
+
+    dma_select.setJSON(data);
+
+    // 유효성 검사 후 저장 실행
+    if(com.data.validateGroup(grp_table)) {
+        com.sbm.execute(sbm_save);
+    };
+};
+
+scwin.sbm_save_submitdone = function(e) {
+    com.win.closePopup("scwin.closeCallbackFncName");
+};]]></script>
+	</head>
+	<body ev:onpageload="scwin.onpageload">
+		<xf:group id="" style="" class="pop_contents flex_gvw">
+			<xf:group id="grp_table" style="" class="tbbox">
+				<xf:group adaptive="layout" tagname="table" style="width:100%;" id="" class="w2tb tb">
+					<w2:attributes>
+						<w2:summary></w2:summary>
+					</w2:attributes>
+					<xf:group tagname="caption"></xf:group>
+					<xf:group tagname="colgroup">
+						<xf:group tagname="col" style="width:13.39%;"></xf:group>
+						<xf:group tagname="col" style="width:50.00%"></xf:group>
+					</xf:group>
+					<xf:group tagname="tr" style="">
+						<xf:group tagname="th" style="" class="w2tb_th">
+							<w2:attributes>
+								<w2:scope>row</w2:scope>
+							</w2:attributes>
+							<w2:textbox id="" label="일정명" style="min-width: 50px;"></w2:textbox>
+						</xf:group>
+						<xf:group tagname="td" style="" class="w2tb_td" id="grp_title">
+							<xf:input id="ipt_title" style="width:100%;" mandatory="true"></xf:input>
+						</xf:group>
+					</xf:group>
+					<xf:group tagname="tr">
+						<xf:group tagname="th" style="" class="w2tb_th">
+							<w2:attributes>
+								<w2:scope>row</w2:scope>
+							</w2:attributes>
+							<w2:textbox id="" label="분류" style=""></w2:textbox>
+						</xf:group>
+						<xf:group tagname="td" style="" class="w2tb_td">
+							<xf:select1 id="sbx_code" chooseOption="" style="width: 148px;" submenuSize="auto" allOption="" disabled="false"
+								direction="auto" appearance="minimal" disabledClass="w2selectbox_disabled" ref="">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[교육]]></xf:label>
+										<xf:value><![CDATA[0]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[업무]]></xf:label>
+										<xf:value><![CDATA[1]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[회의]]></xf:label>
+										<xf:value><![CDATA[2]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[미팅]]></xf:label>
+										<xf:value><![CDATA[3]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+						</xf:group>
+					</xf:group>
+					<xf:group tagname="tr">
+						<xf:group tagname="th" style="" class="w2tb_th">
+							<w2:attributes>
+								<w2:scope>row</w2:scope>
+							</w2:attributes>
+							<w2:textbox id="" label="색상" style=""></w2:textbox>
+						</xf:group>
+						<xf:group tagname="td" style="" class="w2tb_td">
+							<xf:select1 id="sbx_theme" chooseOption="" style="width: 148px;" submenuSize="auto" allOption="" disabled="false"
+								direction="auto" appearance="minimal" disabledClass="w2selectbox_disabled" ref="">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[검정]]></xf:label>
+										<xf:value><![CDATA[black]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[파랑]]></xf:label>
+										<xf:value><![CDATA[blue]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[녹색]]></xf:label>
+										<xf:value><![CDATA[green]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[빨강]]></xf:label>
+										<xf:value><![CDATA[red]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[주황]]></xf:label>
+										<xf:value><![CDATA[orange]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+						</xf:group>
+					</xf:group>
+					<xf:group tagname="tr">
+						<xf:group tagname="th" style="" class="w2tb_th">
+							<w2:attributes>
+								<w2:scope>row</w2:scope>
+							</w2:attributes>
+							<w2:textbox id="" label="일정 내용" style=""></w2:textbox>
+						</xf:group>
+						<xf:group tagname="td" style="height: 80px;" class="w2tb_td">
+							<xf:textarea id="ipt_memo" style="width: 100%;height: 100px;"></xf:textarea>
+						</xf:group>
+					</xf:group>
+					<xf:group tagname="tr">
+						<xf:group tagname="th" style="" class="w2tb_th">
+							<w2:attributes>
+								<w2:scope>row</w2:scope>
+							</w2:attributes>
+							<w2:textbox id="" label="시작일자" style=""></w2:textbox>
+						</xf:group>
+						<xf:group tagname="td" style="" class="w2tb_td">
+
+
+							<w2:inputCalendar id="ipt_start" style="width: 120px;"
+								calendarValueType="yearMonthDate" class="mr5"></w2:inputCalendar>
+							<xf:group id="" style="display: inline-block;border: none;" class="">
+								<xf:select1 id="sbx_stime1" chooseOption="" style="width: 50px;" submenuSize="auto" allOption=""
+									disabled="false" direction="auto" appearance="minimal" disabledClass="w2selectbox_disabled" ref="" class="mr5">
+									<xf:choices>
+										<xf:item>
+											<xf:label><![CDATA[00]]></xf:label>
+											<xf:value><![CDATA[00]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[01]]></xf:label>
+											<xf:value><![CDATA[01]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[02]]></xf:label>
+											<xf:value><![CDATA[02]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[03]]></xf:label>
+											<xf:value><![CDATA[03]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[04]]></xf:label>
+											<xf:value><![CDATA[04]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[05]]></xf:label>
+											<xf:value><![CDATA[05]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[06]]></xf:label>
+											<xf:value><![CDATA[06]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[07]]></xf:label>
+											<xf:value><![CDATA[07]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[08]]></xf:label>
+											<xf:value><![CDATA[08]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[09]]></xf:label>
+											<xf:value><![CDATA[09]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[10]]></xf:label>
+											<xf:value><![CDATA[10]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[11]]></xf:label>
+											<xf:value><![CDATA[11]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[12]]></xf:label>
+											<xf:value><![CDATA[12]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[13]]></xf:label>
+											<xf:value><![CDATA[13]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[14]]></xf:label>
+											<xf:value><![CDATA[14]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[15]]></xf:label>
+											<xf:value><![CDATA[15]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[16]]></xf:label>
+											<xf:value><![CDATA[16]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[17]]></xf:label>
+											<xf:value><![CDATA[17]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[18]]></xf:label>
+											<xf:value><![CDATA[18]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[19]]></xf:label>
+											<xf:value><![CDATA[19]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[20]]></xf:label>
+											<xf:value><![CDATA[20]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[21]]></xf:label>
+											<xf:value><![CDATA[21]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[22]]></xf:label>
+											<xf:value><![CDATA[22]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[23]]></xf:label>
+											<xf:value><![CDATA[23]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[24]]></xf:label>
+											<xf:value><![CDATA[24]]></xf:value>
+										</xf:item>
+									</xf:choices>
+								</xf:select1>
+								<w2:textbox id="" label="시" style="width:28px;display:inline-block;" tagname="h4"></w2:textbox>
+							</xf:group>
+							<xf:group class="" id="" style="display: inline-block;border: none;">
+								<xf:select1 allOption="" appearance="minimal" chooseOption="" direction="auto" disabled="false"
+									disabledClass="w2selectbox_disabled" id="sbx_stime2" style="width: 50px;" submenuSize="auto" ref="" class="mr5">
+									<xf:choices>
+										<xf:item>
+											<xf:label><![CDATA[00]]></xf:label>
+											<xf:value><![CDATA[00]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[10]]></xf:label>
+											<xf:value><![CDATA[10]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[20]]></xf:label>
+											<xf:value><![CDATA[20]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[30]]></xf:label>
+											<xf:value><![CDATA[30]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[40]]></xf:label>
+											<xf:value><![CDATA[40]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[50]]></xf:label>
+											<xf:value><![CDATA[50]]></xf:value>
+										</xf:item>
+									</xf:choices>
+								</xf:select1>
+								<w2:textbox id="" label="분" style="width:28px;display:inline-block;" tagname="h4"></w2:textbox>
+							</xf:group>
+						</xf:group>
+					</xf:group>
+					<xf:group tagname="tr">
+						<xf:group tagname="th" style="" class="w2tb_th">
+							<w2:attributes>
+								<w2:scope>row</w2:scope>
+							</w2:attributes>
+							<w2:textbox id="" label="마감일자" style=""></w2:textbox>
+						</xf:group>
+						<xf:group tagname="td" style="" class="w2tb_td">
+							<w2:inputCalendar id="ipt_end" style="width: 120px;"
+								calendarValueType="yearMonthDate" class="mr5"></w2:inputCalendar>
+							<xf:group class="" id="" style="display: inline-block;border: none;">
+								<xf:select1 allOption="" appearance="minimal" chooseOption="" direction="auto" disabled="false"
+									disabledClass="w2selectbox_disabled" id="sbx_ftime1" style="width: 50px;" submenuSize="auto" ref="">
+									<xf:choices>
+										<xf:item>
+											<xf:label><![CDATA[00]]></xf:label>
+											<xf:value><![CDATA[00]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[01]]></xf:label>
+											<xf:value><![CDATA[01]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[02]]></xf:label>
+											<xf:value><![CDATA[02]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[03]]></xf:label>
+											<xf:value><![CDATA[03]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[04]]></xf:label>
+											<xf:value><![CDATA[04]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[05]]></xf:label>
+											<xf:value><![CDATA[05]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[06]]></xf:label>
+											<xf:value><![CDATA[06]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[07]]></xf:label>
+											<xf:value><![CDATA[07]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[08]]></xf:label>
+											<xf:value><![CDATA[08]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[09]]></xf:label>
+											<xf:value><![CDATA[09]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[10]]></xf:label>
+											<xf:value><![CDATA[10]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[11]]></xf:label>
+											<xf:value><![CDATA[11]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[1]]></xf:label>
+											<xf:value><![CDATA[12]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[13]]></xf:label>
+											<xf:value><![CDATA[13]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[14]]></xf:label>
+											<xf:value><![CDATA[14]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[15]]></xf:label>
+											<xf:value><![CDATA[15]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[16]]></xf:label>
+											<xf:value><![CDATA[16]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[17]]></xf:label>
+											<xf:value><![CDATA[17]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[18]]></xf:label>
+											<xf:value><![CDATA[18]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[19]]></xf:label>
+											<xf:value><![CDATA[19]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[20]]></xf:label>
+											<xf:value><![CDATA[20]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[21]]></xf:label>
+											<xf:value><![CDATA[21]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[22]]></xf:label>
+											<xf:value><![CDATA[22]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[23]]></xf:label>
+											<xf:value><![CDATA[23]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[24]]></xf:label>
+											<xf:value><![CDATA[24]]></xf:value>
+										</xf:item>
+									</xf:choices>
+								</xf:select1>
+								<w2:textbox id="" label="시" style="width:28px;display:inline-block;" tagname="h4"></w2:textbox>
+							</xf:group>
+							<xf:group class="" id="" style="display: inline-block;border: none;">
+								<xf:select1 allOption="" appearance="minimal" chooseOption="" direction="auto" disabled="false"
+									disabledClass="w2selectbox_disabled" id="sbx_ftime2" style="width: 50px;" submenuSize="auto" ref="">
+									<xf:choices>
+										<xf:item>
+											<xf:label><![CDATA[00]]></xf:label>
+											<xf:value><![CDATA[00]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[10]]></xf:label>
+											<xf:value><![CDATA[10]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[20]]></xf:label>
+											<xf:value><![CDATA[20]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[30]]></xf:label>
+											<xf:value><![CDATA[30]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[40]]></xf:label>
+											<xf:value><![CDATA[40]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[50]]></xf:label>
+											<xf:value><![CDATA[50]]></xf:value>
+										</xf:item>
+									</xf:choices>
+								</xf:select1>
+								<w2:textbox id="" label="분" style="width:28px;display:inline-block;" tagname="h4"></w2:textbox>
+							</xf:group>
+						</xf:group>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+
+			<xf:group id="" style="display: flex;justify-content: center;" class="btnbox">
+				<xf:group id="" style="justify-content: center;" class="fr">
+					<xf:trigger type="button" id="btn_add" style="" class="btn_cm pt" ev:onclick="scwin.btn_add_onclick">
+						<xf:label><![CDATA[등록]]></xf:label>
+					</xf:trigger>
+					<xf:trigger type="button" id="btn_cancel" style="" class="btn_cm" ev:onclick="scwin.btn_cancel_onclick">
+						<xf:label><![CDATA[취소]]></xf:label>
+					</xf:trigger>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

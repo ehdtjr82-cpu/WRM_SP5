@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare"
+	xmlns:xf="http://www.w3.org/2002/xforms">
+	<head meta_programId="Common_multiLang" meta_programName="샘플화면-클라이언트다국어" meta_programDesc="본 화면은 WebSquare5의 클라이언트 다국어 설정을 위한 가이드를 제공한다."
+		meta_author="Inswave Systems" meta_date="2023.09.11">
+		<w2:type>COMPONENT</w2:type>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection baseNode="map">
+				<w2:dataMap baseNode="map" id="dma_fileDesc">
+					<w2:keyInfo>
+						<w2:key id="desc" name="" dataType="text"></w2:key>
+						<w2:key id="test" name="" dataType="text"></w2:key>
+					</w2:keyInfo>
+					<w2:data use="true">
+
+						<desc><![CDATA[
+<pre class="textNor" style="">
+<div class="etcbox">본 화면은 WebSquare5의 다국어 설정을 위한 가이드를 제공한다.
+본 화면은 클라이언트 다국어 설정으로 적용되어 있으며, 설정내용은 아래의 설정을 확인한다.
+본 화면에서는&lt;languagePack useLanguagePack="true"&gt;
+useLanguagePack="true" 설정하면 적용이 가능하다.
+</div>
+<div class="etc_tit">1. config.xml 확인</div>
+  &lt;languagePack useLanguagePack="true"&gt;
+	&lt;url lang="ko" value="/message/getLanguagePack/ko"/&gt;
+	&lt;url lang="en" value="/message/getLanguagePack/en"/&gt;
+  &lt;/languagePack&gt;
+  <font color=red>(클아이언트 다국어 설정이 필요없는 경우 useLanguagePack="false"설정하면 클라이언트 다국어가 적용되지 않는다.)</font>
+  
+<div class="etc_tit">2. JAVA 확인
+  - /WRM/src/com/inswave/wrm/common/controller/MessageController.java
+ @RequestMapping("/message/getLanguagePack/{lang}")
+public void getLanguagePack(@PathVariable("lang") String lang, HttpServletResponse response) {
+
+</pre>
+						]]></desc>
+						<test><![CDATA[
+<pre class="textNor">						
+<div class="etc_tit">1. 과정</div>
+1. 오른쪽에 위치한 [언어 선택]를 선택한다.
+<div class="etc_tit">2. 결과</div>
+1. 변경된 [언어 선택]에 따른 화면의 다국어 설정을 확인한다.
+</pre>
+						]]></test>
+					</w2:data>
+				</w2:dataMap>
+				<w2:dataMap baseNode="map" id="dma_sampleDesc">
+					<w2:keyInfo>
+						<w2:key id="desc" name="" dataType="text"></w2:key>
+						<w2:key id="desc1" name="" dataType="text"></w2:key>
+						<w2:key id="desc2" name="" dataType="text"></w2:key>
+						<w2:key id="desc3" name="" dataType="text"></w2:key>
+					</w2:keyInfo>
+					<w2:data use="true">
+
+						<desc><![CDATA[
+<div class="etc_tit">1. span</div>
+  &lt;w2:span id="" label="" <font color=blue>localeRef="MSG_CM_00053" style="" useLocale="true"</font>&gt;
+  <br>
+  <font color=red>localeRef, useLocale 설정합니다.</font>
+<div class="etc_tit">2. textBox, output, table td, trigger, textBox</div>
+  <font color=red>localeRef, useLocale 설정합니다.</font>
+  <br>
+  <font color=red>tooptip설정시 tooltip, tooltipLocaleRef 설정합니다.</font>
+<div class="etc_tit">3. filptoggle</div>
+  &lt w2:fliptoggle id="" <font color=blue>offLocaleRef="MSG_CM_00055" onLocaleRef="MSG_CM_00054"</font> style="position: relative;width: 100px;height: 30px;" <font color=blue>useLocale="true"</font> &gt;
+  <br>
+  <font color=red>onLocaleRef, offLocaleRef,useLocale 설정합니다.</font>
+</pre>
+						]]></desc>
+
+						<desc1><![CDATA[
+<div class="etc_tit">1. selectbox chooseOption</div>
+  &ltxf:select1 allOption="false" appearance="minimal" <font color=blue>chooseOption="true" chooseOptionLabelLocaleRef="MSG_CM_00066"</font>
+								direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="sbx_selectbox10" style="width: 148px;height: 21px;"
+								submenuSize="auto" <font color=blue>useLocale="true"</font>&gt;
+  <br>
+  <font color=red>chooseOption,chooseOptionLabelLocaleRef,useLocale 설정합니다.</font>
+<br>
+<br>
+<div class="etc_tit">2. selectbox useItemLocale</div>
+  &lt;xf:select1 allOption="true" allOptionLabelLocaleRef="allOptionText" appearance="minimal" chooseOption=""
+		direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="sbx_selectbox11" ref=""
+		style="width: 148px;height: 21px;" submenuSize="auto" <font color=blue>useItemLocale="true" useLocale="true"</font>&gt;
+		<br>
+		&nbsp;&nbsp;&lt;xf:choices&gt;
+		<font color=blue>
+		<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&lt;xf:item&gt;&lt;xf:label&gt;&lt;![CDATA[MSG_CM_00064]]&gt;&lt;/xf:label&gt;&lt;xf:value&gt;&lt;![CDATA[MSG_CM_00064]]&gt;&lt;/xf:value&gt;&lt;/xf:item&gt;
+		<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&lt;xf:item&gt;&lt;xf:label&gt;&lt;![CDATA[MSG_CM_00065]]&gt;&lt;/xf:label&gt;&lt;xf:value&gt;&lt;![CDATA[MSG_CM_00065]]&gt;&lt;/xf:value&gt;&lt;/xf:item&gt;
+		</font>
+		<br>
+		&nbsp;&nbsp;&lt;/xf:choices&gt;
+		<br>
+	&lt;/xf:select1&gt;
+  <br>
+  <font color=red> useLocale,item에 (label,value)  설정합니다.</font>
+<br>
+<br>
+<div class="etc_tit">3. autoComplete</div>
+  &lt;w2:autoComplete allOption="" <font color=blue>chooseOption="true" chooseOptionLabelLocaleRef="MSG_CM_00066"</font> editType="select"
+	id="" ref="" search="start" style="width: 148px;height: 21px;" submenuSize="auto" <font color=blue>tooltip="MSG_CM_00017"
+	tooltipLocaleRef="MSG_CM_00017" useLocale="true"</font>&gt;
+  <br>
+  <font color=red>chooseOptionLabelLocaleRef, useLocale,chooseOption 설정합니다.</font>
+  <br>
+  <font color=red>tooptip설정시 tooltip, tooltipLocaleRef 설정합니다.</font>
+<br>
+<br>
+<div class="etc_tit">4. checkcombobox</div>
+  &ltxf:checkcombobox allOption="" appearance="minimal" <font color=blue>chooseOption="true"</font> chooseOptionLabel=""
+  <font color=blue>chooseOptionLabelLocaleRef="MSG_CM_00066"</font> direction="auto" disabled="false" displayAllOptionLabel="false" displayMode="label" id=""
+  ref="" style="width: 148px;height: 21px;" submenuSize="auto" <font color=blue>useLocale="true"</font>&gt;
+  <br>
+  <font color=red>chooseOptionLabelLocaleRef, chooseOption, useLocale 설정합니다.</font>
+						]]></desc1>
+						<desc2><![CDATA[
+				&lt;w2:gridView autoFit="allColumn" class="wq_gvw" dataList="data:dlt_sample" ev:onafteredit="" fixedColumnWithHidden="true"
+					id="grd_chkGrid" ignoreCellClick="false" scrollByColumn="false" sortEvent="ondblclick" sortable="true" style="height:106px;"
+					useShiftKey="true" defaultCellHeight="26" autoFitMinWidth="800" <font color=blue>rowNumVisible="true" rowNumLocaleRef="MSG_CM_00055"</font>
+					<font color=blue>useLocale="true" rowStatusLocaleRef="MSG_CM_00053" rowStatusVisible="true"</font>&gt;
+<br>				
+&nbsp;					&lt;w2:header id="header1" style=""&gt;
+<br>				
+&nbsp;&nbsp;						&lt;w2:row id="row2" style=""&gt;
+<br>				
+&nbsp;&nbsp;&nbsp;&nbsp;							&lt;w2:column blockSelect="false" displayMode="label" id="column11" inputType="text" style="" value="" width="170"
+								<font color=blue>localeRef="MSG_CM_00062" useLocale="true"</font>&gt;&lt;/w2:column&gt;
+<br>				
+........
+				
+<br>				
+&nbsp;					&lt;w2:footer style="" id="footer1"&gt;
+<br>				
+&nbsp;&nbsp;						&lt;w2:row style="" id="row6"&gt;
+<br>				
+&nbsp;&nbsp;&nbsp;&nbsp;							&lt;w2:column width="170" inputType="text" style="" id="column16" value="" displayMode="label"
+								<font color=blue>localeRef="MSG_CM_00053" useLocale="true"&gt;</font> &lt;/w2:column&gt;
+<br>				
+.........
+					
+<br>	
+  <br>
+  <div class="etc_tit">1. girdview column 설정</div>			
+  <font color=red>localeRef, useLocale 설정합니다.</font>
+  <div class="etc_tit">2. girdview rownum 설정</div>			
+  <font color=red>rowNumVisible, rowNumLocaleRef, useLocale 설정합니다.</font>
+  <div class="etc_tit">3. gridview rowStatus 설정</div>			
+  <font color=red>rowStatusLocaleRef, rowStatusVisible, useLocale 설정합니다.</font>
+  <div class="etc_tit">4. gridview footer 설정</div>			
+  <font color=red>localeRef, useLocale 설정합니다.</font>
+						]]></desc2>
+						<desc3><![CDATA[
+  <div class="etc_tit">1. tab label 설정</div>
+	var tabObj = {.....	<font color=blue>localeRef: "MSG_CM_00056" //엔진 반영 예정</font>};
+  <br>
+	var contObj = {.......}
+  <br>
+	tac_tabControl1.addTab("a112341", tabObj, contObj);			
+  <br>
+  <font color=red>localeRef, useLocale 설정합니다.</font>
+  <br>
+  <br>
+  <div class="etc_tit">2. tab 중복 메세지 설정</div>
+  &lt;w2:tabControl <font color=blue>confirmMessageLocaleRef="MSG_CM_00056" useConfirmMessage="true"</font> alwaysDraw="false" style="position:relative;height:200px;" id="tac_tabControl1" class="wq_tab"&gt;
+  <br>
+  <font color=red>confirmMessageLocaleRef, useConfirmMessage 설정합니다.</font>
+  <br>
+  <br>
+  <div class="etc_tit">3. window 중복 메세지 설정</div>
+  &lt;w2:windowContainer <font color=blue>confirmMessageLocaleRef="MSG_CM_00055"</font> style="position:relative;height:200px;"
+						id="wdc_windowContainer1" <font color=blue>useLocale="true"</font>&gt;
+  <br>
+  <font color=red>confirmMessageLocaleRef, useLocale 설정합니다.</font>
+						
+						]]></desc3>
+					</w2:data>
+				</w2:dataMap>
+				<w2:dataMap baseNode="map" id="dma_memberBasic">
+					<w2:keyInfo>
+						<w2:key id="EMP_CD" name="사원코드" dataType="text"></w2:key>
+						<w2:key id="EMP_NM" name="사원명" dataType="text"></w2:key>
+						<w2:key id="JOIN_DATE" name="입사일" dataType="text"></w2:key>
+						<w2:key id="RESIDENT_NO" name="주민번호" dataType="text"></w2:key>
+						<w2:key id="EMP_CN_NM" name="사원한자명" dataType="text"></w2:key>
+						<w2:key id="ASSIGNED_TASK" name="담당업무" dataType="text"></w2:key>
+						<w2:key id="EMP_EN_NM" name="사원영문명" dataType="text"></w2:key>
+						<w2:key id="POSITION_UPDATED_DATE" name="호칭변경일" dataType="text"></w2:key>
+						<w2:key id="LAST_APPOINT_DATE" name="최종발령일" dataType="text"></w2:key>
+					</w2:keyInfo>
+				</w2:dataMap>
+				<w2:dataList id="dlt_sample" baseNode="list" saveRemovedData="true" repeatNode="map">
+					<w2:columnInfo>
+						<w2:column id="col1" name="기본코드" dataType="text"></w2:column>
+						<w2:column id="col2" name="기본사항" dataType="text"></w2:column>
+						<w2:column id="col3" name="입력사항" dataType="text"></w2:column>
+						<w2:column id="col4" name="확인사항" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+				<w2:dataList baseNode="list" repeatNode="map" id="dlt_dataList1" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="col1" name="name1" dataType="text"></w2:column>
+						<w2:column id="col2" name="name2" dataType="text"></w2:column>
+					</w2:columnInfo>
+					<w2:data use="true">
+						<w2:row>
+							<col1><![CDATA[1]]></col1>
+							<col2><![CDATA[주주클럽]]></col2>
+						</w2:row>
+						<w2:row>
+							<col1><![CDATA[2]]></col1>
+							<col2><![CDATA[영턱스클럽]]></col2>
+						</w2:row>
+						<w2:row>
+							<col1><![CDATA[3]]></col1>
+							<col2><![CDATA[이오공감]]></col2>
+						</w2:row>
+						<w2:row>
+							<col1><![CDATA[4]]></col1>
+							<col2><![CDATA[룰라]]></col2>
+						</w2:row>
+						<w2:row>
+							<col1><![CDATA[5]]></col1>
+							<col2><![CDATA[내일은 사랑]]></col2>
+						</w2:row>
+					</w2:data>
+				</w2:dataList>
+			</w2:dataCollection>
+			<w2:workflowCollection></w2:workflowCollection>
+		</xf:model>
+		<w2:layoutInfo></w2:layoutInfo>
+		<w2:publicInfo method=""></w2:publicInfo>
+
+		<script type="text/javascript" lazy="false"><![CDATA[
+scwin.flag = false;
+
+scwin.onpageload = function () {
+	var cookie_val = com.win.getLangCode();
+	sel_multiLang.setValue(cookie_val);
+	if (cookie_val != "en") {
+		scwin.flag = true;
+	}
+	dlt_sample.insertRow()
+};
+
+scwin.sel_multiLang_onchange = function () {
+	
+	if (scwin.flag) { 
+		com.win.setLangCode(sel_multiLang.getValue());
+		if ($p.main().scwin.getLayoutId() == "M") {
+			$p.reinitialize();
+		} else {
+			location.reload();
+		}
+	} else {
+		scwin.flag = true;
+	}
+};
+
+scwin.wfTitleDesc_btn_DescTitleBtn_onclick = function() {
+	this.getParent().getParent().toggleClass("on")
+};
+
+scwin.btn_trigger1_onclick = function(e) {
+	var tabObj = { 
+		closable : true, //탭 닫기 기능 제공
+		openAction : "", // exist 는 기존 탭을 갱신, new 는 항상 새로, select는 동일 id 가 존재하면 선택, last: 기존 tab을 마지막 tab으로 이동후 선택
+		label : "menuNm" ,
+		useLocale: true,
+		localeRef: "MSG_CM_00056" //엔진 반영 예정
+	};
+
+	var contObj = {
+		frameMode : "wframePreload",
+		scope : true,
+		src : "/ui/SP/Parameter/DataObject_ParameterSend.xml",
+		alwaysDraw : true,
+		title : "title"  ,
+		dataObject : { 
+			type : "json", 
+			name : "paramData", 
+			data : {},
+		}
+	};
+
+	return Promise.resolve().then(function() {
+		return tac_tabControl1.addTab("sample", tabObj, contObj);
+	}).then(function(tabId) {
+		tac_tabControl1.setSelectedTabIndex(tabId);
+		return tabId;
+	});
+};
+
+scwin.btn_trigger2_onclick = function(e) {
+	wdc_windowContainer1.createWindow( "edu001" , null , "/ui/SP/Parameter/Popup_Parameter.xml" );
+};
+]]></script>
+		<style type="text/css"><![CDATA[
+		.lybox .tabbox > .wq_tab .w2tabcontrol_container{position:absolute;top:32px;}
+		]]></style>
+	</head>
+	<body ev:onpageload="scwin.onpageload">
+		<xf:group class="sub_contents" id="" style="">
+			<w2:wframe id="" style="" src="../../cm/xml/contentHeader.xml" scope=""></w2:wframe>
+			<w2:wframe id="" src="../../cm/xml/contentDesc.xml" scope=""></w2:wframe>
+			<xf:group class="dfbox" id="" style="">
+				<xf:group class="fr" id="" style="">
+					<w2:textbox class="ett" id="" label="언어선택 : " style=""></w2:textbox>
+					<xf:select1 allOption="" appearance="minimal" chooseOption="" class="" direction="auto" disabled="false"
+						disabledClass="w2selectbox_disabled" ev:onchange="scwin.sel_multiLang_onchange" id="sel_multiLang" ref="" style="width:100px;"
+						submenuSize="auto">
+						<xf:choices>
+							<xf:item>
+								<xf:label><![CDATA[한국어]]></xf:label>
+								<xf:value><![CDATA[ko]]></xf:value>
+							</xf:item>
+							<xf:item>
+								<xf:label><![CDATA[영어]]></xf:label>
+								<xf:value><![CDATA[en]]></xf:value>
+							</xf:item>
+						</xf:choices>
+					</xf:select1>
+				</xf:group>
+			</xf:group>
+			<xf:group class="accr_wrap mt20" id="" style="border: 1px solid #e5ebf2;    border-radius: 4px;" tagname="">
+				<xf:group class="items" id="" style="" tagname="" text="">
+					<xf:group class="tit_box" id="" style="background: #fafafa;" userData1="">
+						<w2:anchor ev:onclick="scwin.wfTitleDesc_btn_DescTitleBtn_onclick" id="btn_info" outerDiv="false"
+							style="line-height: 20px;    font-size: 11px;" userData1="grp_infoItem">
+							<xf:label><![CDATA[예제설명1]]></xf:label>
+						</w2:anchor>
+					</xf:group>
+					<xf:group class="con_box" id="" style="padding: 10px 30px;border-top: 1px solid #e5ebf2;background: #fff;">
+						<w2:textbox id="" label="설명글입니다." style="" ref="data:dma_sampleDesc.desc" escape="false"></w2:textbox>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+			<xf:group class="dfbox" id="" style="">
+				<xf:group class="tbbox" id="" style="">
+					<xf:group adaptive="layout" adaptiveThreshold="900" class="w2tb tb" id="grp_group2" style="width:100%;"
+						tagname="table">
+						<w2:attributes>
+							<w2:summary></w2:summary>
+						</w2:attributes>
+						<xf:group tagname="colgroup">
+							<xf:group style="width:120px;" tagname="col"></xf:group>
+							<xf:group style="" tagname="col"></xf:group>
+							<xf:group style="width:120px;" tagname="col"></xf:group>
+							<xf:group style="" tagname="col"></xf:group>
+							<xf:group style="width:120px;" tagname="col"></xf:group>
+							<xf:group style="" tagname="col"></xf:group>
+						</xf:group>
+						<xf:group style="" tagname="tr">
+							<xf:group class="w2tb_th" localeRef="" style="" tagname="th" useLocale="true">span</xf:group>
+							<xf:group class="w2tb_td" style="" tagname="td">
+								<w2:span id="" label="" localeRef="MSG_CM_00053" style="" useLocale="true"></w2:span>
+							</xf:group>
+							<xf:group class="w2tb_th" style="" tagname="th">textBox</xf:group>
+							<xf:group class="w2tb_td" style="" tagname="td">
+								<w2:textbox id="" label="" localeRef="MSG_CM_00030"
+									style="width: 100%;    overflow: hidden;    text-overflow: ellipsis;    white-space: nowrap;" toolTip="" tooltip="123"
+									tooltipLocaleRef="MSG_CM_00073" useLocale="true" userData3="">
+								</w2:textbox>
+							</xf:group>
+							<xf:group class="w2tb_th" style="" tagname="th">output</xf:group>
+							<xf:group class="w2tb_td" style="" tagname="td">
+								<xf:output id="opt_output2" label="" localeRef="MSG_CM_00064" style="width: 150px;height: 23px;"
+									tooltip="MSG_CM_00074" tooltipLocaleRef="MSG_CM_00074" useLocale="true">
+									<xf:label><![CDATA[]]></xf:label>
+								</xf:output>
+							</xf:group>
+						</xf:group>
+						<xf:group style="" tagname="tr">
+							<xf:group class="w2tb_th" style="" tagname="th">table&amp;nbsp;td</xf:group>
+							<xf:group class="w2tb_td" localeRef="MSG_CM_00062" style="" tagname="td" tooltip="MSG_CM_00075"
+								tooltipLocaleRef="MSG_CM_00075" useLocale="true">
+							</xf:group>
+							<xf:group class="w2tb_th" style="" tagname="th">trigger</xf:group>
+							<xf:group class="w2tb_td" style="" tagname="td">
+								<xf:trigger id="btn_trigger4" localeRef="MSG_CM_00060" style="width:150px;height:23px;"
+									tooltip="MSG_CM_00060" tooltipLocaleRef="MSG_CM_00060" type="button" useLocale="true">
+									<xf:label><![CDATA[trigger1]]></xf:label>
+								</xf:trigger>
+							</xf:group>
+							<xf:group class="w2tb_th" style="" tagname="th">anchor</xf:group>
+							<xf:group class="w2tb_td" style="" tagname="td">
+								<w2:anchor id="" localeRef="MSG_CM_00058" outerDiv="false" style="width:149px;height:23px;"
+									tooltip="MSG_CM_00058" tooltipLocaleRef="MSG_CM_00058" useLocale="true">
+									<xf:label><![CDATA[ancher]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+						</xf:group>
+						<xf:group style="" tagname="tr">
+							<xf:group class="w2tb_th" style="" tagname="th">filptoggle</xf:group>
+							<xf:group class="w2tb_td" style="" tagname="td">
+								<w2:attributes>
+									<w2:colspan>5</w2:colspan>
+									<w2:rowspan>1</w2:rowspan>
+								</w2:attributes>
+								<w2:fliptoggle id="" offLocaleRef="MSG_CM_00055" onLocaleRef="MSG_CM_00054"
+									style="position: relative;width: 100px;height: 30px;" useLocale="true">
+									<w2:on label="On" value="On"></w2:on>
+									<w2:off label="Off" value="Off"></w2:off>
+								</w2:fliptoggle>
+							</xf:group>
+						</xf:group>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+			<xf:group class="accr_wrap mt20" id="" style="border: 1px solid #e5ebf2;    border-radius: 4px;" tagname="">
+				<xf:group class="items" id="" style="" tagname="" text="">
+					<xf:group class="tit_box" id="" style="background: #fafafa;" userData1="">
+						<w2:anchor ev:onclick="scwin.wfTitleDesc_btn_DescTitleBtn_onclick" id="btn_anchor5" outerDiv="false"
+							style="line-height: 20px;    font-size: 11px;" userData1="grp_infoItem">
+							<xf:label><![CDATA[예제설명2]]></xf:label>
+						</w2:anchor>
+					</xf:group>
+					<xf:group class="con_box" id="" style="padding: 10px 30px;    border-top: 1px solid #e5ebf2;    background: #fff;">
+						<w2:textbox id="" label="설명글입니다." style="" ref="data:dma_sampleDesc.desc1" escape="false"></w2:textbox>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+			<xf:group class="tbbox" id="" style="">
+				<xf:group class="w2tb tb" id="group1" style="width:100%;" tagname="table" adaptive="layout" adaptiveThreshold="900">
+					<w2:attributes>
+						<w2:summary></w2:summary>
+					</w2:attributes>
+					<xf:group tagname="colgroup">
+						<xf:group style="width:120px;" tagname="col"></xf:group>
+						<xf:group style="" tagname="col"></xf:group>
+						<xf:group style="width:120px;" tagname="col"></xf:group>
+						<xf:group style="" tagname="col"></xf:group>
+						<xf:group style="width:120px;" tagname="col"></xf:group>
+						<xf:group style="" tagname="col"></xf:group>
+
+
+					</xf:group>
+					<xf:group style="" tagname="tr">
+						<xf:group class="w2tb_th" style="" tagname="th">
+							selectbox&amp;nbsp;
+							<br />
+							chooseOption
+						</xf:group>
+						<xf:group class="w2tb_td" style="" tagname="td">
+							<xf:select1 allOption="false" appearance="minimal" chooseOption="true" chooseOptionLabelLocaleRef="MSG_CM_00066"
+								direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="sbx_selectbox10" style="width: 148px;height: 21px;"
+								submenuSize="auto" useLocale="true">
+							</xf:select1>
+						</xf:group>
+						<xf:group class="w2tb_th" style="" tagname="th">
+							selectbox&amp;nbsp;
+							<br />
+							useItemLocale
+						</xf:group>
+						<xf:group class="w2tb_td" style="" tagname="td">
+							<xf:select1 allOption="true" allOptionLabelLocaleRef="allOptionText" appearance="minimal" chooseOption=""
+								direction="auto" disabled="false" disabledClass="w2selectbox_disabled" id="sbx_selectbox11" ref=""
+								style="width: 148px;height: 21px;" submenuSize="auto" useItemLocale="true" useLocale="true">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[MSG_CM_00064]]></xf:label>
+										<xf:value><![CDATA[MSG_CM_00064]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[MSG_CM_00065]]></xf:label>
+										<xf:value><![CDATA[MSG_CM_00065]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+						</xf:group>
+						<xf:group class="w2tb_th" style="" tagname="th">autoComplete</xf:group>
+						<xf:group class="w2tb_td" style="" tagname="td">
+							<w2:autoComplete allOption="" chooseOption="true" chooseOptionLabelLocaleRef="MSG_CM_00066" editType="select"
+								id="" ref="" search="start" style="width: 148px;height: 21px;" submenuSize="auto" tooltip="MSG_CM_00076"
+								tooltipLocaleRef="MSG_CM_00076" useLocale="true">
+								<w2:choices>
+									<w2:item>
+										<w2:label><![CDATA[주주클럽]]></w2:label>
+										<w2:value><![CDATA[1]]></w2:value>
+									</w2:item>
+									<w2:item>
+										<w2:label><![CDATA[이오공감]]></w2:label>
+										<w2:value><![CDATA[2]]></w2:value>
+									</w2:item>
+									<w2:item>
+										<w2:label><![CDATA[영턱스클럽]]></w2:label>
+										<w2:value><![CDATA[3]]></w2:value>
+									</w2:item>
+									<w2:item>
+										<w2:label><![CDATA[룰라]]></w2:label>
+										<w2:value><![CDATA[4]]></w2:value>
+									</w2:item>
+									<w2:item>
+										<w2:label><![CDATA[내일은 사랑]]></w2:label>
+										<w2:value><![CDATA[5]]></w2:value>
+									</w2:item>
+								</w2:choices>
+							</w2:autoComplete>
+						</xf:group>
+					</xf:group>
+					<xf:group style="" tagname="tr">
+						<xf:group class="w2tb_th" style="" tagname="th">checkcombobox</xf:group>
+						<xf:group class="w2tb_td" style="" tagname="td">
+							<xf:checkcombobox allOption="" appearance="minimal" chooseOption="true" chooseOptionLabel=""
+								chooseOptionLabelLocaleRef="MSG_CM_00066" direction="auto" disabled="false" displayAllOptionLabel="false" displayMode="label" id=""
+								ref="" style="width: 148px;height: 21px;" submenuSize="auto" useLocale="true">
+								<xf:choices>
+									<xf:itemset nodeset="data:dlt_dataList1">
+										<xf:label ref="col2"></xf:label>
+										<xf:value ref="col1"></xf:value>
+									</xf:itemset>
+								</xf:choices>
+							</xf:checkcombobox>
+						</xf:group>
+						<xf:group class="w2tb_th" style="" tagname="th"></xf:group>
+						<xf:group class="w2tb_td" style="" tagname="td"></xf:group>
+						<xf:group class="w2tb_th" style="" tagname="th"></xf:group>
+						<xf:group class="w2tb_td" style="" tagname="td"></xf:group>
+					</xf:group>
+				</xf:group>
+
+			</xf:group>
+			<xf:group class="accr_wrap mt20" id="" style="border: 1px solid #e5ebf2;    border-radius: 4px;" tagname="">
+				<xf:group class="items" id="" style="" tagname="" text="">
+					<xf:group class="tit_box" id="" style="background: #fafafa;" userData1="">
+						<w2:anchor ev:onclick="scwin.wfTitleDesc_btn_DescTitleBtn_onclick" id="btn_anchor6" outerDiv="false"
+							style="line-height: 20px;    font-size: 11px;" userData1="grp_infoItem">
+							<xf:label><![CDATA[예제설명3]]></xf:label>
+						</w2:anchor>
+					</xf:group>
+					<xf:group class="con_box" id="" style="padding: 10px 30px;    border-top: 1px solid #e5ebf2;    background: #fff;">
+						<w2:textbox id="" label="설명글입니다." style="" ref="data:dma_sampleDesc.desc2" escape="false"></w2:textbox>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+
+
+
+
+
+			<xf:group adaptiveThreshold="" class="gvwbox" id="" style="">
+				<w2:gridView autoFit="allColumn" class="wq_gvw" dataList="data:dlt_sample" ev:onafteredit="" fixedColumnWithHidden="true"
+					id="grd_chkGrid" ignoreCellClick="false" scrollByColumn="false" sortEvent="ondblclick" sortable="true" style="height:106px;"
+					useShiftKey="true" defaultCellHeight="26" autoFitMinWidth="800" rowNumVisible="true" rowNumLocaleRef="MSG_CM_00077"
+					useLocale="true" rowStatusLocaleRef="MSG_CM_00078" rowStatusVisible="true">
+					<w2:header id="header1" style="">
+						<w2:row id="row2" style="">
+							<w2:column blockSelect="false" displayMode="label" id="column11" inputType="text" style="" value="" width="170"
+								localeRef="MSG_CM_00062" useLocale="true">
+							</w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="column7" inputType="text" style="" value="" width="170"
+								localeRef="MSG_CM_00063" useLocale="true">
+							</w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="column3" inputType="text" style="" value="" width="100"
+								localeRef="MSG_CM_00064" useLocale="true">
+							</w2:column>
+							<w2:column blockSelect="false" id="column12" inputType="text" style="" value="" width="100"
+								localeRef="MSG_CM_00065" useLocale="true">
+							</w2:column>
+						</w2:row>
+					</w2:header>
+					<w2:gBody id="gBody4" style="">
+						<w2:row id="row5" style="">
+							<w2:column blockSelect="false" displayMode="label" id="col1" inputType="text" style="" width="170"></w2:column>
+							<w2:column blockSelect="false" displayMode="label" id="col2" inputType="text" style="" textAlign="left"
+								width="170">
+							</w2:column>
+							<w2:column blockSelect="false" defaultValue="" displayMode="" falseValue="N" id="col3" inputType="text" style=""
+								textAlign="left" trueValue="Y" value="" valueType="other" width="100">
+							</w2:column>
+							<w2:column blockSelect="false" id="col4" inputType="text" style="" width="100"></w2:column>
+						</w2:row>
+					</w2:gBody>
+					<w2:footer style="" id="footer1">
+						<w2:row style="" id="row6">
+							<w2:column width="170" inputType="text" style="" id="column16" value="" displayMode="label"
+								localeRef="MSG_CM_00072" useLocale="true">
+							</w2:column>
+							<w2:column width="170" inputType="text" style="" id="column15" value="" displayMode="label"></w2:column>
+							<w2:column width="100" inputType="text" style="" id="column14" value="" displayMode="label"></w2:column>
+							<w2:column width="100" inputType="text" style="" id="column13" value="" displayMode="label"></w2:column>
+						</w2:row>
+					</w2:footer>
+				</w2:gridView>
+
+
+			</xf:group>
+			<xf:group class="accr_wrap mt20" id="" style="border: 1px solid #e5ebf2;    border-radius: 4px;" tagname="">
+				<xf:group class="items" id="" style="" tagname="" text="">
+					<xf:group class="tit_box" id="" style="background: #fafafa;" userData1="">
+						<w2:anchor ev:onclick="scwin.wfTitleDesc_btn_DescTitleBtn_onclick" id="btn_anchor1" outerDiv="false"
+							style="line-height: 20px;    font-size: 11px;" userData1="grp_infoItem">
+							<xf:label><![CDATA[예제설명4]]></xf:label>
+						</w2:anchor>
+					</xf:group>
+					<xf:group class="con_box" id="" style="padding: 10px 30px;    border-top: 1px solid #e5ebf2;    background: #fff;">
+						<w2:textbox id="" label="설명글입니다." style="" ref="data:dma_sampleDesc.desc3" escape="false"></w2:textbox>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+			<xf:group id="" class="lybox">
+				<xf:group id="" class="ly_column">
+					<xf:group id="" class="tabbox">
+						<w2:tabControl confirmMessageLocaleRef="MSG_CM_00070" useConfirmMessage="true" alwaysDraw="true"
+							style="position:relative;height:200px;" id="tac_tabControl1" class="wq_tab">
+							<w2:tabs localeRef="MSG_CM_00068" disabled="false" style="width:70px;height:30px;" id="tabs1"
+								useLocale="true">
+							</w2:tabs>
+							<w2:tabs localeRef="MSG_CM_00069" disabled="false" style="width:100px;height:30px;" id="tabs2" useLocale="true"></w2:tabs>
+							<w2:content alwaysDraw="true" style="height:170px" id="content1" src="/ui/SP/Parameter/SessionStorage_ParameterSend.xml"></w2:content>
+							<w2:content alwaysDraw="true" style="height:170px" id="content2" src="/ui/SP/Bean/Bean_Transaction.xml"></w2:content>
+						</w2:tabControl>
+					</xf:group>
+				<xf:trigger id="btn_trigger1" localeRef="" style="width:150px;height:23px;" type="button" ev:onclick="scwin.btn_trigger1_onclick" useLocale="true">
+				<xf:label><![CDATA[탭추가]]></xf:label>
+			</xf:trigger></xf:group>
+
+				<xf:group id="" class="ly_column">
+				<w2:windowContainer confirmMessageLocaleRef="MSG_CM_00071" style="position:relative;height:200px;border:1px solid #2d5277;margin-bottom:16px;" id="wdc_windowContainer1" useLocale="true" class="win_c" controlIconPosition="allright" toolbarPosition="top" useCloseButton="true" useNameContainer="true">
+						<w2:windowToolbar>
+							<w2:controlIconLayer>
+								<w2:controlIcon></w2:controlIcon>
+								<w2:controlIcon></w2:controlIcon>
+								<w2:controlIcon></w2:controlIcon>
+								<w2:controlIcon></w2:controlIcon>
+								<w2:controlIcon></w2:controlIcon>
+							</w2:controlIconLayer>
+							<w2:nameLayer></w2:nameLayer>
+							<w2:selectedNameLayer></w2:selectedNameLayer>
+						</w2:windowToolbar>
+					</w2:windowContainer><xf:trigger ev:onclick="scwin.btn_trigger2_onclick" id="btn_trigger2" localeRef="" style="width:150px;height:23px;" type="button" useLocale="true">
+				<xf:label><![CDATA[window탭추가]]></xf:label>
+			</xf:trigger></xf:group>
+
+			</xf:group>
+			
+
+			
+		</xf:group>
+	</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<title>WebSquare Docs</title>
+	<link rel="stylesheet" href="./highlight/styles/vs2015.css">
+	<script src="./highlight/highlight.pack.js"></script>
+	<script src="./api.js"/>
+	<script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body class="twoColFixLt">
+	<div id="content">
+		<div id="container" xmlns:LINS="http://www.inswave.com/LINS">
+    <div id="mainContent">
+        <div id="topbar">
+            <div name="mainheader">
+                <a href="#defaultoptionsdetail">Property</a><a href="#eventheader">Event</a><a href="#apiheader">Method</a><a href="../indexlist.html">찾아보기</a>
+            </div>
+            <div id="date">_cm_udc_fileMultiUpload - </div>
+            <h1 id="apiname">
+                <!--문서 상단에 위치하는 컨포넌트 ID-->
+            </h1>
+        </div>
+        <div id="apidesc">
+            <!--문서 상단에 위치하는 컨포넌트 설명. 최초로 나오는 . 까지 출력하게 된다.-->
+        </div>
+        <div id="summary">
+            <h2>Type</h2>
+            <dl id="sumtitle">
+                <dd></dd>
+                <dt class="title">pageComponent</dt>
+            </dl>
+            <h2>Property Summary</h2>
+            <!--Property Summary 부분이다. 최초로 나오는 . 까지 출력하게 된다.-->
+            <dl id="defaultoptionsum">
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="dopsum_title" href="#class">class</a>
+                    </dt>
+                    <dd style="position:relative;" class="dopsum_desc">desc</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="dopsum_title" href="#fileGrpSeq">fileGrpSeq</a>
+                    </dt>
+                    <dd style="position:relative;" class="dopsum_desc">파일 그룹 관리에서 등록한 파일 그룹 순번</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="dopsum_title" href="#filter">filter</a>
+                    </dt>
+                    <dd style="position:relative;" class="dopsum_desc">공백("")으로 설정하면 모든 파일(*</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="dopsum_title" href="#id">id</a>
+                    </dt>
+                    <dd style="position:relative;" class="dopsum_desc">desc</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="dopsum_title" href="#maxFileCount">maxFileCount</a>
+                    </dt>
+                    <dd style="position:relative;" class="dopsum_desc">최대 업로드 파일 개수</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="dopsum_title" href="#maxFileSize">maxFileSize</a>
+                    </dt>
+                    <dd style="position:relative;" class="dopsum_desc">업로드할 개별 파일 사이즈 (websquare</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="dopsum_title" href="#style">style</a>
+                    </dt>
+                    <dd style="position:relative;" class="dopsum_desc">desc</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="dopsum_title" href="#subDir">subDir</a>
+                    </dt>
+                    <dd style="position:relative;" class="dopsum_desc">파일의 저장할 subDir 디렉터리 경로 설정(설정하지 않은 경우 websquare</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="dopsum_title" href="#totalFileSize">totalFileSize</a>
+                    </dt>
+                    <dd style="position:relative;" class="dopsum_desc">업로드할 전체 파일 사이즈</dd>
+                </div>
+            </dl>
+            <!--만일 해당 컨포넌트를 부모로 갖고 있는 자식 컨포넌트가 있다면 자식 컨포넌트에 대한 Property Summary 를 보여준다.-->
+            <h2>Event Summary</h2>
+            <!--Event Summary 부분이다. 최초로 나오는 . 까지 출력하게 된다.-->
+            <dl id="eventsum">
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="eventsum_title" href="#onFileUploadDone">onFileUploadDone</a>
+                    </dt>
+                    <dd style="position:relative;" class="eventsum_desc">파일 업로드 완료 시 발생하는 이벤트 함수</dd>
+                </div>
+            </dl>
+            <h2>Method Summary</h2>
+            <!--Method Summary 부분이다. 최초로 나오는 . 까지 출력하게 된다.-->
+            <dl id="apisum">
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="apisum_title" href="#getUpdatedFile">getUpdatedFile(
+									  
+										)
+								</a>
+                    </dt>
+                    <dd style="position:relative;" class="apisum_desc">업데이트된 파일 정보를 반환하는 함수</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="apisum_title" href="#isModified">isModified(
+									  
+										)
+								</a>
+                    </dt>
+                    <dd style="position:relative;" class="apisum_desc">추가하거나 삭제하려는 파일이 있는지 여부 검사</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="apisum_title" href="#setDataSeq">setDataSeq(
+									  dataSeq
+										)
+								</a>
+                    </dt>
+                    <dd style="position:relative;" class="apisum_desc">데이터 순번을 세팅하고, 기존에 업로드된 파일을 표시하는 함수</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="apisum_title" href="#setFileSelectingButtonDisabled">setFileSelectingButtonDisabled(
+									  status
+										)
+								</a>
+                    </dt>
+                    <dd style="position:relative;" class="apisum_desc">파일 선택 버튼을 상태를 제어함</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="apisum_title" href="#setFileUpload">setFileUpload(
+									  option
+										)
+								</a>
+                    </dt>
+                    <dd style="position:relative;" class="apisum_desc">파일 업로드 옵션을 설정하는 함수</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="apisum_title" href="#startFileUpload">startFileUpload(
+									  
+										)
+								</a>
+                    </dt>
+                    <dd style="position:relative;" class="apisum_desc">파일 업로드를 실행하는 함수</dd>
+                </div>
+                <div style="position:relative;">
+                    <dt style="position:relative;">
+                        <a class="apisum_title" href="#undoFileUpload">undoFileUpload(
+									  dataSeq
+										)
+								</a>
+                    </dt>
+                    <dd style="position:relative;" class="apisum_desc">파일 추가 &amp; 삭제 상태를 원복하는 함수</dd>
+                </div>
+            </dl>
+        </div>
+        <h2 id="defaultoptionsdetail">Property Detail</h2>
+        <!--Property Detail 부분이다. Property 명과 Property의 설명을 모두 보여준다.-->
+        <div name="defaultoptions" id="defaultoptions">
+            <dl id="dd">
+                <a class="anchor" id="class"></a>
+                <dt class="ename">class</dt>
+                <dd>
+                    <div class="edesc">desc</div>
+                </dd>
+                <a class="anchor" id="fileGrpSeq"></a>
+                <dt class="ename">fileGrpSeq</dt>
+                <dd>
+                    <div class="edesc">파일 그룹 관리에서 등록한 파일 그룹 순번</div>
+                </dd>
+                <a class="anchor" id="filter"></a>
+                <dt class="ename">filter</dt>
+                <dd>
+                    <div class="edesc">공백("")으로 설정하면 모든 파일(*.*)로 설정됨</div>
+                </dd>
+                <a class="anchor" id="id"></a>
+                <dt class="ename">id</dt>
+                <dd>
+                    <div class="edesc">desc</div>
+                </dd>
+                <a class="anchor" id="maxFileCount"></a>
+                <dt class="ename">maxFileCount</dt>
+                <dd>
+                    <div class="edesc">최대 업로드 파일 개수</div>
+                </dd>
+                <a class="anchor" id="maxFileSize"></a>
+                <dt class="ename">maxFileSize</dt>
+                <dd>
+                    <div class="edesc">업로드할 개별 파일 사이즈 (websquare.xml 환경설정 파일의 maxUploadSize 값보다 커서는 안됨)</div>
+                </dd>
+                <a class="anchor" id="style"></a>
+                <dt class="ename">style</dt>
+                <dd>
+                    <div class="edesc">desc</div>
+                </dd>
+                <a class="anchor" id="subDir"></a>
+                <dt class="ename">subDir</dt>
+                <dd>
+                    <div class="edesc">파일의 저장할 subDir 디렉터리 경로 설정(설정하지 않은 경우 websquare.xml 환경설정 파일의 baseDir 경로에 파일이 저장됨)</div>
+                </dd>
+                <a class="anchor" id="totalFileSize"></a>
+                <dt class="ename">totalFileSize</dt>
+                <dd>
+                    <div class="edesc">업로드할 전체 파일 사이즈</div>
+                </dd>
+            </dl>
+        </div>
+        <!--해당 컨포넌트를 parent 로 두고 있는 자식 컨포넌트가 있는 경우 자식 컨포넌트의 Property 명과 Property의 설명을 모두 보여준다.-->
+        <dl></dl>
+        <h2 id="eventheader">Event Detail</h2>
+        <!--Event Detail 부분이다. Property 명과 Property의 설명을 모두 보여준다.-->
+        <div id="eventdetail">
+            <dl id="dd">
+                <a class="anchor" id="onFileUploadDone"></a>
+                <dt class="ename">onFileUploadDone</dt>
+                <dd>
+                    <div class="edesc">파일 업로드 완료 시 발생하는 이벤트 함수</div>
+                    <table id="ptable">
+                        <caption>Parameter</caption>
+                        <tr>
+                            <td class="header1">name</td><td class="header2">type</td><td class="header3">description</td>
+                        </tr>
+                        <tr>
+                            <td class="necessary">isSuccess</td><td class="row">boolean</td><td class="row">파일 전송 성공 여부 (1개라도 업로드에 실패한 파일이 있으면 false를 반환함)</td>
+                        </tr>
+                    </table>
+                </dd>
+            </dl>
+        </div>
+        <h2 id="apiheader">Method Detail</h2>
+        <!--Method Detail 부분이다. Property 명과 Property의 설명을 모두 보여준다.-->
+        <div id="apidetail">
+            <dl>
+                <a class="anchor" id="getUpdatedFile"></a>
+                <dt class="apiname">getUpdatedFile(
+									  
+										)
+							</dt>
+                <dd>
+                    <div class="pdesc">업데이트된 파일 정보를 반환하는 함수</div>
+                    <!--만일 해당 Method 가 파라미터가 있는 경우 table 테그를 이용해서 보여준다.-->
+                    <!--만일 해당 Method 에 return 값이 있는 경우 table 테그를 이용해서 보여준다.-->
+                    <table id="ptable">
+                        <caption>Returns</caption>
+                        <tr>
+                            <td class="header1">name</td><td class="header1">type</td><td class="header3">description</td>
+                        </tr>
+                        <tr>
+                            <td class="necessary">option</td><td class="row">string</td><td class="row">파일 업로드 옵션</td>
+                        </tr>
+                    </table>
+                </dd>
+                <a class="anchor" id="isModified"></a>
+                <dt class="apiname">isModified(
+									  
+										)
+							</dt>
+                <dd>
+                    <div class="pdesc">추가하거나 삭제하려는 파일이 있는지 여부 검사</div>
+                    <!--만일 해당 Method 가 파라미터가 있는 경우 table 테그를 이용해서 보여준다.-->
+                    <!--만일 해당 Method 에 return 값이 있는 경우 table 테그를 이용해서 보여준다.-->
+                    <table id="ptable">
+                        <caption>Returns</caption>
+                        <tr>
+                            <td class="header1">name</td><td class="header1">type</td><td class="header3">description</td>
+                        </tr>
+                        <tr>
+                            <td class="necessary">status</td><td class="row">boolean</td><td class="row">파일 변경 상태 ( true : 변경된 파일 있음, false : 변경된 파일 없음)</td>
+                        </tr>
+                    </table>
+                </dd>
+                <a class="anchor" id="setDataSeq"></a>
+                <dt class="apiname">setDataSeq(
+									  dataSeq
+										)
+							</dt>
+                <dd>
+                    <div class="pdesc">데이터 순번을 세팅하고, 기존에 업로드된 파일을 표시하는 함수</div>
+                    <!--만일 해당 Method 가 파라미터가 있는 경우 table 테그를 이용해서 보여준다.-->
+                    <table id="ptable">
+                        <caption>Parameter</caption>
+                        <tr>
+                            <td class="header1">name</td><td class="header2">type</td><td class="header2">required</td><td class="header3">description</td>
+                        </tr>
+                        <tr>
+                            <td class="necessary">dataSeq</td><td class="row">string</td><td class="row">Y</td><td class="row">데이터 순번</td>
+                        </tr>
+                    </table>
+                    <!--만일 해당 Method 에 return 값이 있는 경우 table 테그를 이용해서 보여준다.-->
+                </dd>
+                <a class="anchor" id="setFileSelectingButtonDisabled"></a>
+                <dt class="apiname">setFileSelectingButtonDisabled(
+									  status
+										)
+							</dt>
+                <dd>
+                    <div class="pdesc">파일 선택 버튼을 상태를 제어함</div>
+                    <!--만일 해당 Method 가 파라미터가 있는 경우 table 테그를 이용해서 보여준다.-->
+                    <table id="ptable">
+                        <caption>Parameter</caption>
+                        <tr>
+                            <td class="header1">name</td><td class="header2">type</td><td class="header2">required</td><td class="header3">description</td>
+                        </tr>
+                        <tr>
+                            <td class="necessary">status</td><td class="row">boolean</td><td class="row">Y</td><td class="row">버튼 상태 ( true : 활성화, false : 비활성화)</td>
+                        </tr>
+                    </table>
+                    <!--만일 해당 Method 에 return 값이 있는 경우 table 테그를 이용해서 보여준다.-->
+                </dd>
+                <a class="anchor" id="setFileUpload"></a>
+                <dt class="apiname">setFileUpload(
+									  option
+										)
+							</dt>
+                <dd>
+                    <div class="pdesc">파일 업로드 옵션을 설정하는 함수</div>
+                    <!--만일 해당 Method 가 파라미터가 있는 경우 table 테그를 이용해서 보여준다.-->
+                    <table id="ptable">
+                        <caption>Parameter</caption>
+                        <tr>
+                            <td class="header1">name</td><td class="header2">type</td><td class="header2">required</td><td class="header3">description</td>
+                        </tr>
+                        <tr>
+                            <td class="necessary">option</td><td class="row">string</td><td class="row">Y</td><td class="row">파일 업로드 옵션</td>
+                        </tr>
+                    </table>
+                    <!--만일 해당 Method 에 return 값이 있는 경우 table 테그를 이용해서 보여준다.-->
+                    <div class="caption_sample">Example</div>
+                    <div class="pdesc">
+                        <pre>
+                            <code>// 첨부 파일 업로드 모듈 초기 설정 옵션
+// - option.maxFileCount : 업로드 가능한 첨부 파일 개수
+// - option.totalFileSize : 업로드 가능한 전체 첨부 파일 크기 (개별 첨부 파일 크기는 서버 프레임워크에서 세팅함)
+// - option.fileGrpSeq : 파일 그룹 아이디 (신규 등록 화면이면 ""로 세팅하고, 수정 화면이면 기존에 등록된 파일 그룹 아이디를 세팅함)
+var option = {
+    maxFileCount : 3,
+    totalFileSize : 209715200,
+    policy : "templates",
+    fileGrpSeq : "23",
+    filter : "*.jpg,*.png,*.gif"
+};
+
+// 첨부 파일 업로드 모듈 초기 설정
+// - fileUploadFrame File Upload WFrame 객체
+// - option File Upload 옵션 정보
+com.setFileUpload(option);</code>
+                        </pre>
+                    </div>
+                </dd>
+                <a class="anchor" id="startFileUpload"></a>
+                <dt class="apiname">startFileUpload(
+									  
+										)
+							</dt>
+                <dd>
+                    <div class="pdesc">파일 업로드를 실행하는 함수</div>
+                    <!--만일 해당 Method 가 파라미터가 있는 경우 table 테그를 이용해서 보여준다.-->
+                    <!--만일 해당 Method 에 return 값이 있는 경우 table 테그를 이용해서 보여준다.-->
+                </dd>
+                <a class="anchor" id="undoFileUpload"></a>
+                <dt class="apiname">undoFileUpload(
+									  dataSeq
+										)
+							</dt>
+                <dd>
+                    <div class="pdesc">파일 추가 & 삭제 상태를 원복하는 함수</div>
+                    <!--만일 해당 Method 가 파라미터가 있는 경우 table 테그를 이용해서 보여준다.-->
+                    <table id="ptable">
+                        <caption>Parameter</caption>
+                        <tr>
+                            <td class="header1">name</td><td class="header2">type</td><td class="header2">required</td><td class="header3">description</td>
+                        </tr>
+                        <tr>
+                            <td class="necessary">dataSeq</td><td class="row">string</td><td class="row">Y</td><td class="row">데이터 순번</td>
+                        </tr>
+                    </table>
+                    <!--만일 해당 Method 에 return 값이 있는 경우 table 테그를 이용해서 보여준다.-->
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+	</div>
+	<div id="copyright">Copyrights Inswave Systems Co., Ltd.</div>
+	<div id="date">
+		VERSION
+	</div>
+</body>
+</html>
