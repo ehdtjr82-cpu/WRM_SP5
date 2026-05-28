@@ -16,6 +16,7 @@
 			<path src="/cm/js/main.js"/>
 		</commonPath>
 	</wpack>
+	
 	<allValue value="all"/>
 	<docType value="standard"/>
 	<debug errorConsole="true" remoteConsole="false" value="true"/>
@@ -75,8 +76,9 @@
 		<removeDefaultClass value="true"/>
 	</style>
 	<engine>
-		<module src="/cm/js/commonGlobal.js"/>
-		<module src="/cm/js/commonScope.js"/>
+		<module src="/cm/js/commonGlobal.js" />
+		<module src="/cm/js/commonScope.js" />
+		<module src="/cm/js/commonUser.js"></module>
 	</engine>
 	<udc>
 		<requires>

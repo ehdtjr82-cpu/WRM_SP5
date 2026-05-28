@@ -197,6 +197,9 @@ export default {
         },
         {
           "@src": "/cm/js/commonScope.js"
+        },
+        {
+          "@src": "/cm/js/commonUser.js"
         }
       ]
     },
