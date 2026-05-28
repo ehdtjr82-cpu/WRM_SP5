@@ -211,7 +211,7 @@ scwin.btn_History_onclick = function () {
  * scwin.setMenuRelation("인사조회", "/tmp/tmp01.xml", "010001");
  * scwin.setMenuRelation("인사조회", "/tmp/tmp01.xml", "010001", "Tree");
  */
-scwin.setMenuRelation = function (menuNm, menuUrl, menuCode, skipType) {
+scwin.setMenuRelation = function (menuNm, menuUrl, menuCode, skipType) {debugger;
 	var menuList = dlt_menu.getMatchedJSON("MENU_CD", menuCode, true);
 
 	if (menuList && menuList.length > 0) {

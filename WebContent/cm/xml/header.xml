@@ -17,6 +17,120 @@
 };
 
 /** 
+ * 좌측 메뉴를 생성한다. 재귀함수 개선
+ * 메뉴 뎁스가 늘어날경우 대비
+ * FLAT JSON을 하이라이키 구조로 변경경
+ */
+scwin.setGenerator = function () {
+    gen_firstGenerator.removeAll();
+
+    var tmpDataArr = $p.parent().wfm_side.getWindow().dlt_menu.getAllJSON();
+    
+    // 빠른 검색을 위해 맵(Map) 생성 및 자식 배열 공간 확보
+    var menuMap = {};
+    var rootMenus = [];
+
+    tmpDataArr.forEach(function(item) {
+        item.children = []; // 자식을 담을 배열 추가
+        menuMap[item.MENU_CD] = item;
+    });
+
+    // 2. 부모-자식 관계 연결
+    tmpDataArr.forEach(function(item) {
+        var parentKey = item.PARENT_MENU_CD;
+        // 부모가 존재하고, 자기 자신과 부모가 같지 않은 경우 (최상위가 아닌 경우)
+        if (parentKey && menuMap[parentKey] && parentKey !== item.MENU_CD) {
+            menuMap[parentKey].children.push(item);
+        } else if (item.MENU_LEVEL == "1") {
+            // 최상위 대메뉴 레벨인 경우 root 배열에 삽입
+            rootMenus.push(item);
+        }
+    });
+    // 3. 트리 구조가 완성되었으니 재귀 함수 호출 시작!
+    // 최초 호출은 최상위 제너레이터(gen_firstGenerator)와 최상위 메뉴 리스트를 넘깁니다.
+    scwin.renderMenuRecursive(gen_firstGenerator, rootMenus, 1);
+};
+
+scwin.setGenerator = function () {
+    gen_firstGenerator.removeAll();
+
+    var tmpDataArr = $p.parent().wfm_side.getWindow().dlt_menu.getAllJSON();
+    
+    // 1. 빠른 검색을 위해 맵(Map) 생성 및 자식 배열 공간 확보
+    var menuMap = {};
+    var rootMenus = [];
+
+    tmpDataArr.forEach(function(item) {
+        item.children = []; // 자식을 담을 배열 추가
+        menuMap[item.MENU_CD] = item;
+    });
+
+    // 2. 부모-자식 관계 연결
+    tmpDataArr.forEach(function(item) {
+        var parentKey = item.PARENT_MENU_CD;
+        // 부모가 존재하고, 자기 자신과 부모가 같지 않은 경우 (최상위가 아닌 경우)
+        if (parentKey && menuMap[parentKey] && parentKey !== item.MENU_CD) {
+            menuMap[parentKey].children.push(item);
+        } else if (item.MENU_LEVEL == "1") {
+            // 최상위 대메뉴 레벨인 경우 root 배열에 삽입
+            rootMenus.push(item);
+        }
+    });
+
+    // 3. 트리 구조가 완성되었으니 재귀 함수 호출 시작!
+    // 최초 호출은 최상위 제너레이터(gen_firstGenerator)와 최상위 메뉴 리스트를 넘깁니다.
+    scwin._renderMenuRecursive(gen_firstGenerator, rootMenus, 1);
+};
+
+scwin._renderMenuRecursive = function (currentGenerator, menuList, depth) {
+    if (!menuList || menuList.length === 0) return;
+
+    for (var i = 0; i < menuList.length; i++) {
+        var menuData = menuList[i];
+        
+        // 1. 현재 제너레이터에 자식 요소를 생성하고 인덱스를 가져옴
+        var insertedIdx = currentGenerator.insertChild();
+        
+        // 2. 컴포넌트 ID 규칙화 (예: btn_menu1_Label, btn_menu2_Label...)
+        var labelComponentId = "btn_menu" + depth + "_Label";
+        var menuLabel = currentGenerator.getChild(insertedIdx, labelComponentId);
+        
+        if (menuLabel) {
+            menuLabel.setValue(menuData.MENU_NM);
+            
+            // 모든 메뉴에 일관되게 userData 세팅 (필요한 속성만 골라서 세팅 가능)
+            menuLabel.setUserData("ins_webPath", menuData.SRC_PATH);
+            menuLabel.setUserData("ins_key", menuData.PARENT_MENU_CD);
+            menuLabel.setUserData("ins_label", menuData.MENU_NM);
+            menuLabel.setUserData("ins_code", menuData.MENU_CD);
+        }
+
+        // 3. 하위 자식 메뉴가 존재한다면 (다음 레벨 렌더링을 위한 재귀 호출)
+        if (menuData.children && menuData.children.length > 0) {
+            // 다음 단계의 제너레이터 ID 규칙화 (예: gen_SecondGenerator, gen_thirdGenerator...)
+            var nextGeneratorId = (depth === 1) ? "gen_SecondGenerator" : "gen_thirdGenerator";
+            
+            // 만약 4레벨 이상 무한으로 확정 지으려면 화면 ID 구조를 'gen_childGenerator' 등으로 통일하는 것이 좋습니다.
+            // 여기서는 기존 컴포넌트 명칭 규격을 유지하기 위해 분기 처리했습니다.
+            var nextGenerator = currentGenerator.getChild(insertedIdx, nextGeneratorId);
+            
+            if (nextGenerator) {
+                // 자기 자신을 다시 호출 (하위 제너레이터, 자식 데이터 리스트, 다음 depth 단계 넘김)
+                scwin._renderMenuRecursive(nextGenerator, menuData.children, depth + 1);
+            }
+        } else {
+            // 만약 자식이 없는 중간 레이어(빈 박스)가 남는 것을 방지하기 위해 
+            // 현재 depth 이후의 하위 제너레이터 컴포넌트가 존재한다면 삭제 처리
+            var nextGenId = (depth === 1) ? "gen_SecondGenerator" : "gen_thirdGenerator";
+            var emptyGen = currentGenerator.getChild(insertedIdx, nextGenId);
+            if (emptyGen) {
+                emptyGen.remove();
+            }
+        }
+    }
+};
+
+/** 
  * 좌측 메뉴를 생성한다.
  */
 scwin.setGenerator = function () {
