@@ -1449,7 +1449,7 @@ gcm.sbm = {};
  * @author Inswave Systems
  * @return {Boolean} true or false
  */
-gcm.sbm.preSubmitFunction = function(sbmObj) {
+gcm.sbm.preSubmitFunction = function(sbmObj) {debugger;
 	if ((com.util.isEmpty(gcm.CONTEXT_PATH) === false) && (sbmObj.action.indexOf(gcm.CONTEXT_PATH) !== 0)) {
 		sbmObj.action = gcm.CONTEXT_PATH + sbmObj.action;
 	}
@@ -1458,6 +1458,32 @@ gcm.sbm.preSubmitFunction = function(sbmObj) {
 	if (gcm.IS_RESTFUL_URL === true) {
 		gcm.sbm.setActionParam(sbmObj);
 	}
+	try {
+       let rawData = (sbmObj.requestData && Object.keys(sbmObj.requestData).length > 0) 
+       ? sbmObj.requestData 
+       : WebSquare.ModelUtil.getRefToReqData(sbmObj);
+       
+       if(rawData) {
+    	   let reqDataStr = "";
+    	   if(typeof rawData === "object") {
+    		   reqDataStr = JSON.stringify(rawData);
+    	   } else if(typeof rawData === "string") {
+    		   reqDataStr = rawData;
+    	   }
+    	   
+    	   if (reqDataStr) {
+               var convertedStr = reqDataStr.replace(/:\s*(-?\d+\.?\d*)/g, ':"$1"');
+               sbmObj.requestData = JSON.parse(convertedStr);
+           } else {
+        	   sbmObj.requestData = {};
+           } 
+       } else {
+    	   sbmObj.requestData = {};
+       }
+       return true;
+    } catch (e) {
+        console.error("서브미션 공통 숫자->문자열 변환 중 오류 발생: ", e);
+    }
 };
 
 
